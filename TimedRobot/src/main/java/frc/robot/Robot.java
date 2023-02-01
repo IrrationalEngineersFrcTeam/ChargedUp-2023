@@ -55,6 +55,9 @@ public class Robot extends TimedRobot {
     m_rightFront.restoreFactoryDefaults();
     m_rightBack.restoreFactoryDefaults();
 
+    m_leftSide.setInverted(true);
+    m_rightSide.setInverted(false);
+
     m_leftBack.follow(m_leftFront);
     m_rightBack.follow(m_rightFront);
 

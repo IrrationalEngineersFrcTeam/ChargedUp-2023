@@ -4,9 +4,12 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.filter.LinearFilter;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,20 +28,30 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  private CANSparkMax m_leftFront = new CANSparkMax(7, MotorType.kBrushless);
-  private CANSparkMax m_leftBack = new CANSparkMax(2, MotorType.kBrushless);
-  private CANSparkMax m_rightFront = new CANSparkMax(5, MotorType.kBrushless);
-  private CANSparkMax m_rightBack = new CANSparkMax(6, MotorType.kBrushless);
+ CANSparkMax m_leftFront = new CANSparkMax(7, MotorType.kBrushless);
+ CANSparkMax m_leftBack = new CANSparkMax(2, MotorType.kBrushless);
+ CANSparkMax m_rightFront = new CANSparkMax(5, MotorType.kBrushless);
+ CANSparkMax m_rightBack = new CANSparkMax(6, MotorType.kBrushless);
 
-  private MotorControllerGroup m_leftSide = new MotorControllerGroup(m_leftFront, m_leftBack); 
-  private MotorControllerGroup m_rightSide = new MotorControllerGroup(m_rightFront, m_rightBack);
+ MotorControllerGroup m_leftSide = new MotorControllerGroup(m_leftFront, m_leftBack); 
+ MotorControllerGroup m_rightSide = new MotorControllerGroup(m_rightFront, m_rightBack);
 
-  private DifferentialDrive m_drive = new DifferentialDrive(m_leftSide, m_rightSide);
+ DifferentialDrive m_drive = new DifferentialDrive(m_leftSide, m_rightSide);
 
-  private XboxController xboxController = new XboxController(0);
+ Accelerometer accelerometer = new BuiltInAccelerometer();
+
+ LinearFilter xAccelFilter = LinearFilter.movingAverage(10);
+ LinearFilter yAccelFilter = LinearFilter.movingAverage(10);
+ LinearFilter zAccelFilter = LinearFilter.movingAverage(10);
+
+ XboxController xboxController = new XboxController(0);
   
-  private double forwardSpeed;
-  private double rotationSpeed;
+ double forwardSpeed;
+ double rotationSpeed;
+ double prevXAccel = 0;
+ double prevYAccel = 0;
+ double prevZAccel = 0;
+ double frameAngle;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -49,7 +62,7 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
-
+    
     m_leftFront.restoreFactoryDefaults();
     m_leftBack.restoreFactoryDefaults();
     m_rightFront.restoreFactoryDefaults();
@@ -73,6 +86,39 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    // Gets the current accelerations in the X, Y, and Z directions
+    double xAccel = accelerometer.getX();
+    double yAccel = accelerometer.getY();
+    double zAccel = accelerometer.getZ();
+
+    // Calculates the jerk in the X and Y directions
+    // Divides by .02 because default loop timing is 20ms
+    double xJerk = (xAccel - prevXAccel)/.02;
+    double yJerk = (yAccel - prevYAccel)/.02;
+    double zJerk = (zAccel - prevYAccel)/.02;
+
+    prevXAccel = xAccel;
+    prevYAccel = yAccel;
+    prevZAccel = zAccel;
+
+    // Get the filtered X and Y acceleration
+    double filteredXAccel = xAccelFilter.calculate(accelerometer.getX());
+    double filteredYAccel = yAccelFilter.calculate(accelerometer.getY());
+    double filteredZAccel = zAccelFilter.calculate(accelerometer.getZ());
+
+    frameAngle = (Math.atan(filteredXAccel/filteredZAccel))*(180/Math.PI);
+
+    // Puts accelerometer data on SmartDashboard
+    SmartDashboard.putNumber("xAccel", xAccel);
+    SmartDashboard.putNumber("yAccel", yAccel);
+    SmartDashboard.putNumber("zAccel", zAccel);
+    SmartDashboard.putNumber("xJerk", xJerk);
+    SmartDashboard.putNumber("yJerk", yJerk);
+    SmartDashboard.putNumber("zJerk", zJerk);
+    SmartDashboard.putNumber("filteredXAccel", filteredXAccel);
+    SmartDashboard.putNumber("filteredYAccel", filteredYAccel);
+    SmartDashboard.putNumber("filteredZAccel", filteredZAccel);
+    SmartDashboard.putNumber("frameAngle", frameAngle);
   }
 
   /**

@@ -1,0 +1,37 @@
+<xml version="1.0">
+<dashboard>
+	<widget field="frameAngle" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="1134" y="586"/>
+	</widget>
+	<widget field="filteredZAccel" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="777" y="292"/>
+	</widget>
+	<widget field="zJerk" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="779" y="594"/>
+	</widget>
+	<widget field="zAccel" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="792" y="-4"/>
+	</widget>
+	<widget field="filteredYAccel" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="380" y="303"/>
+	</widget>
+	<widget field="yJerk" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="388" y="599"/>
+	</widget>
+	<widget field="xJerk" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="-13" y="602"/>
+	</widget>
+	<widget field="filteredXAccel" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="-18" y="301"/>
+	</widget>
+	<widget field="yAccel" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="391" y="1"/>
+	</widget>
+	<widget field="xAccel" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="-13" y="-3"/>
+	</widget>
+</dashboard>
+<live-window>
+</live-window>
+	<hidden field="Auto choices"/>
+</xml>

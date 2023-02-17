@@ -13,6 +13,9 @@ import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import org.photonvision.PhotonCamera;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -28,30 +31,32 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
- CANSparkMax m_leftFront = new CANSparkMax(7, MotorType.kBrushless);
- CANSparkMax m_leftBack = new CANSparkMax(2, MotorType.kBrushless);
- CANSparkMax m_rightFront = new CANSparkMax(5, MotorType.kBrushless);
- CANSparkMax m_rightBack = new CANSparkMax(6, MotorType.kBrushless);
+  CANSparkMax m_leftFront = new CANSparkMax(7, MotorType.kBrushless);
+  CANSparkMax m_leftBack = new CANSparkMax(2, MotorType.kBrushless);
+  CANSparkMax m_rightFront = new CANSparkMax(5, MotorType.kBrushless);
+  CANSparkMax m_rightBack = new CANSparkMax(6, MotorType.kBrushless);
 
- MotorControllerGroup m_leftSide = new MotorControllerGroup(m_leftFront, m_leftBack); 
- MotorControllerGroup m_rightSide = new MotorControllerGroup(m_rightFront, m_rightBack);
+  MotorControllerGroup m_leftSide = new MotorControllerGroup(m_leftFront, m_leftBack); 
+  MotorControllerGroup m_rightSide = new MotorControllerGroup(m_rightFront, m_rightBack);
 
- DifferentialDrive m_drive = new DifferentialDrive(m_leftSide, m_rightSide);
+  DifferentialDrive m_drive = new DifferentialDrive(m_leftSide, m_rightSide);
 
- Accelerometer accelerometer = new BuiltInAccelerometer();
+  Accelerometer accelerometer = new BuiltInAccelerometer();
 
- LinearFilter xAccelFilter = LinearFilter.movingAverage(10);
- LinearFilter yAccelFilter = LinearFilter.movingAverage(10);
- LinearFilter zAccelFilter = LinearFilter.movingAverage(10);
-
- XboxController xboxController = new XboxController(0);
+  LinearFilter xAccelFilter = LinearFilter.movingAverage(10);
+  LinearFilter yAccelFilter = LinearFilter.movingAverage(10);
+  LinearFilter zAccelFilter = LinearFilter.movingAverage(10);
   
- double forwardSpeed;
- double rotationSpeed;
- double prevXAccel = 0;
- double prevYAccel = 0;
- double prevZAccel = 0;
- double frameAngle;
+  XboxController xboxController = new XboxController(0);
+
+  PhotonCamera photonCamera = new PhotonCamera("photonvision");
+  
+  double forwardSpeed;
+  double rotationSpeed;
+
+  double prevXAccel = 0;
+  double prevYAccel = 0;
+  double prevZAccel = 0;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -106,7 +111,7 @@ public class Robot extends TimedRobot {
     double filteredYAccel = yAccelFilter.calculate(accelerometer.getY());
     double filteredZAccel = zAccelFilter.calculate(accelerometer.getZ());
 
-    frameAngle = (Math.atan(filteredXAccel/filteredZAccel))*(180/Math.PI);
+    double frameAngle = (Math.atan(filteredXAccel/filteredZAccel))*(180/Math.PI);
 
     // Puts accelerometer data on SmartDashboard
     SmartDashboard.putNumber("xAccel", xAccel);
@@ -119,6 +124,11 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("filteredYAccel", filteredYAccel);
     SmartDashboard.putNumber("filteredZAccel", filteredZAccel);
     SmartDashboard.putNumber("frameAngle", frameAngle);
+
+    if (xboxController.getAButtonPressed()) {
+      var result = photonCamera.getLatestResult();
+      System.out.println(result.getTargets());
+    }
   }
 
   /**

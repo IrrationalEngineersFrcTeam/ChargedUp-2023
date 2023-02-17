@@ -14,7 +14,10 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import java.util.List;
+
 import org.photonvision.PhotonCamera;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -49,7 +52,7 @@ public class Robot extends TimedRobot {
   
   XboxController xboxController = new XboxController(0);
 
-  PhotonCamera photonCamera = new PhotonCamera("photonvision");
+  PhotonCamera photonCamera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
   
   double forwardSpeed;
   double rotationSpeed;
@@ -126,8 +129,23 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("frameAngle", frameAngle);
 
     if (xboxController.getAButtonPressed()) {
-      var result = photonCamera.getLatestResult();
-      System.out.println(result.getTargets());
+      List<PhotonTrackedTarget> targets = photonCamera.getLatestResult().getTargets();
+      PhotonTrackedTarget target;
+      double yaw;
+      double pitch;
+      int targetID;
+
+      for (int i = 0; i < targets.size(); i++) {
+        target = targets.get(i);
+        yaw = target.getYaw();
+        pitch = target.getPitch();
+        targetID = target.getFiducialId();
+
+        System.out.println("Target ID: " + targetID);
+        System.out.println("Yaw: " + yaw);
+        System.out.println("Pitch: " + pitch);
+      }
+      System.out.println("# of targets: " + targets.size());
     }
   }
 

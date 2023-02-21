@@ -23,7 +23,7 @@ public class Constants {
 
     public static final class motorConstants {
         
-        public static final double maxDriveSpeed = 0.45;
+        public static final double maxDriveSpeed = 0.1;
         public static final double maxIntakeWheelSpeed = 0.35;
         public static final double maxIntakeLowerSpeed = 0.15;
     }

@@ -81,6 +81,10 @@ public class driveSystem extends SubsystemBase {
         return leftFrontMotor.getSelectedSensorPosition();
     }
 
+    public void resetSensor() {
+        leftFrontMotor.setSelectedSensorPosition(0);
+    }
+
     public void raiseMaxOutput() {
         if (maxDriveSpeed < 1.0) {
             maxDriveSpeed += 0.05;

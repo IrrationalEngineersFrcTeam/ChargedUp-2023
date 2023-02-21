@@ -1,0 +1,38 @@
+{
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/Talon FX [2]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [4]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [5]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [6]": "Motor Controller",
+      "/LiveWindow/driveSystem": "Subsystem",
+      "/LiveWindow/driveSystem/Differential Drive 1": "DifferentialDrive",
+      "/LiveWindow/dumperSystem": "Subsystem",
+      "/LiveWindow/intakeSystem": "Subsystem",
+      "/SmartDashboard/Auto Mode": "String Chooser",
+      "/SmartDashboard/autonomousCommandGroup": "Command",
+      "/SmartDashboard/button1": "Command",
+      "/SmartDashboard/button5": "Command",
+      "/SmartDashboard/button6": "Command",
+      "/SmartDashboard/driveSystem": "Subsystem",
+      "/SmartDashboard/dumperSystem": "Subsystem",
+      "/SmartDashboard/intakeSystem": "Subsystem",
+      "/SmartDashboard/leaveTarmac": "Command",
+      "/SmartDashboard/lowerDumper": "Command",
+      "/SmartDashboard/lowerIntake": "Command",
+      "/SmartDashboard/moveDumper": "Command",
+      "/SmartDashboard/raiseDumper": "Command",
+      "/SmartDashboard/reverseIntakeDirection": "Command",
+      "/SmartDashboard/startIntake": "Command"
+    },
+    "windows": {
+      "/LiveWindow/driveSystem/Differential Drive 1": {
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  }
+}

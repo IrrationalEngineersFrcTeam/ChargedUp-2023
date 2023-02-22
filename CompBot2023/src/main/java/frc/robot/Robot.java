@@ -32,8 +32,8 @@ public class Robot extends TimedRobot {
 
     private Command m_autonomousCommand;
     private RobotContainer m_robotContainer;
-    private DriveSystem m_driveSystem = m_robotContainer.m_driveSystem;
-    private XboxController xboxController = m_robotContainer.getXboxController();
+    private DriveSystem m_driveSystem;
+    private XboxController xboxController;
     private double forwardSpeed;
     private double rotationSpeed;
 
@@ -46,6 +46,8 @@ public class Robot extends TimedRobot {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = RobotContainer.getInstance();
+        m_driveSystem = m_robotContainer.m_driveSystem;
+        xboxController = m_robotContainer.getXboxController();
     }
 
     /**
@@ -115,7 +117,7 @@ public class Robot extends TimedRobot {
         forwardSpeed = xboxController.getLeftY();
         rotationSpeed = xboxController.getRightX();
 
-        m_driveSystem.drive(forwardSpeed, rotationSpeed);
+        m_driveSystem.drive(-forwardSpeed, -rotationSpeed);
     }
 
     @Override

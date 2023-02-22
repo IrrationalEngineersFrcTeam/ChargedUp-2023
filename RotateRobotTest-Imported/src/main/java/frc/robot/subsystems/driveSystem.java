@@ -56,8 +56,8 @@ public class driveSystem extends SubsystemBase {
         leftBackMotor.follow(leftFrontMotor);
         rightBackMotor.follow(rightFrontMotor);
 
-        rightFrontMotor.setInverted(TalonFXInvertType.CounterClockwise);
-        leftFrontMotor.setInverted(TalonFXInvertType.Clockwise);
+        rightFrontMotor.setInverted(true);
+        leftFrontMotor.setInverted(false);
 
         rightBackMotor.setInverted(InvertType.FollowMaster);
         leftBackMotor.setInverted(InvertType.FollowMaster);

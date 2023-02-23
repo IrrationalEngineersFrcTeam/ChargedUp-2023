@@ -15,10 +15,15 @@ package frc.robot;
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.DriveSystem;
 
 /**
@@ -29,13 +34,16 @@ import frc.robot.subsystems.DriveSystem;
  * the project.
  */
 public class Robot extends TimedRobot {
-
     private Command m_autonomousCommand;
     private RobotContainer m_robotContainer;
     private DriveSystem m_driveSystem;
     private XboxController xboxController;
+    private Compressor compressor;
+    private Solenoid solenoid0;
+    private Solenoid solenoid7;
     private double forwardSpeed;
     private double rotationSpeed;
+    private double compressorPressure;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -48,6 +56,9 @@ public class Robot extends TimedRobot {
         m_robotContainer = RobotContainer.getInstance();
         m_driveSystem = m_robotContainer.m_driveSystem;
         xboxController = m_robotContainer.getXboxController();
+        compressor = m_robotContainer.getCompressor();
+        solenoid0 = m_robotContainer.getSolenoid(0);
+        solenoid7 = m_robotContainer.getSolenoid(7);
     }
 
     /**
@@ -124,6 +135,11 @@ public class Robot extends TimedRobot {
     public void testInit() {
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
+        compressor.enableDigital();
+        solenoid0.setPulseDuration(0.5);
+        solenoid7.setPulseDuration(0.5);
+        System.out.println("solenoid 0 channel: " + solenoid0.getChannel());
+        System.out.println("solenoid 7 channel: " + solenoid7.getChannel());
     }
 
     /**
@@ -131,6 +147,17 @@ public class Robot extends TimedRobot {
     */
     @Override
     public void testPeriodic() {
-    }
+        compressorPressure = compressor.getPressure();
+        SmartDashboard.putNumber("compressor pressure value", compressorPressure);
 
+        if (xboxController.getAButtonPressed()) {
+            solenoid0.set(true);
+            solenoid0.startPulse();
+        }
+
+        if (xboxController.getBButtonPressed()) {
+            solenoid7.set(true);
+            solenoid7.startPulse();
+        }
+    }
 }

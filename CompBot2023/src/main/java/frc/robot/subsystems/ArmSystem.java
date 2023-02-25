@@ -29,30 +29,6 @@ public class ArmSystem extends SubsystemBase {
         compressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
     }
 
-    public void extendPiston() {
-        doubleSolenoid.set(Value.kForward);
-        System.out.println("extended piston");
-    }
-
-    public void retractPiston() {
-        doubleSolenoid.set(Value.kReverse);
-        System.out.println("retracted piston");
-    }
-
-    public void toggleCompressor() {
-        if (isCompressorEnabled) {
-            compressor.disable();
-        } else {
-            compressor.enableDigital();
-        }
-        isCompressorEnabled = !isCompressorEnabled;
-    }
-
-    public void enableCompressor() {
-        isCompressorEnabled = true;
-        compressor.enableDigital();
-    }
-
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
@@ -67,5 +43,27 @@ public class ArmSystem extends SubsystemBase {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
-}
+    public void extendPiston() {
+        doubleSolenoid.set(Value.kForward);
+        System.out.println("extended piston");
+    }
 
+    public void retractPiston() {
+        doubleSolenoid.set(Value.kReverse);
+        System.out.println("retracted piston");
+    }
+
+    public void enableCompressor() {
+        isCompressorEnabled = true;
+        compressor.enableDigital();
+    }
+
+    public void toggleCompressor() {
+        if (isCompressorEnabled) {
+            compressor.disable();
+        } else {
+            compressor.enableDigital();
+        }
+        isCompressorEnabled = !isCompressorEnabled;
+    }
+}

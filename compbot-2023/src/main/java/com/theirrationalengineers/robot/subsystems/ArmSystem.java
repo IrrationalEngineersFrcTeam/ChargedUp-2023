@@ -10,7 +10,7 @@
 
 // ROBOTBUILDER TYPE: Subsystem.
 
-package frc.robot.subsystems;
+package com.theirrationalengineers.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Compressor;

@@ -9,7 +9,7 @@
 // it from being updated in the future.
 
 
-package frc.robot;
+package com.theirrationalengineers.robot;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean

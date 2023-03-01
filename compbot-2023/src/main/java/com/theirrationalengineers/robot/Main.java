@@ -9,7 +9,7 @@
 // it from being updated in the future.
 
 
-package frc.robot;
+package com.theirrationalengineers.robot;
 
 import edu.wpi.first.wpilibj.RobotBase;
 

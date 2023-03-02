@@ -5,11 +5,11 @@ import com.theirrationalengineers.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DriveDistanceCommand extends CommandBase {
-    private final DriveSubsystem m_driveSystem;
+    private final DriveSubsystem driveSubsystem;
 
     public DriveDistanceCommand(DriveSubsystem subsystem) {
-        m_driveSystem = subsystem;
-        addRequirements(m_driveSystem);
+        driveSubsystem = subsystem;
+        addRequirements(driveSubsystem);
     }
 
     @Override

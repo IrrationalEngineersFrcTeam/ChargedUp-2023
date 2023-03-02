@@ -5,19 +5,19 @@ import com.theirrationalengineers.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class RotateRobotCommand extends CommandBase {
-    private final DriveSubsystem m_driveSystem;
+    private final DriveSubsystem driveSubsystem;
     private double rotationSpeed;
+    private double rotationDegrees;
     private double rotationRadians;
     private double encoderCountsPerRev;
     private double encoderDistancePerPulse;
     private double encoderCountsToRotate;
     private double initialEncoderPos;
     private double currentEncoderPos;
-    private double rotationDegrees;
 
     public RotateRobotCommand(DriveSubsystem subsystem, double rotationDegrees) {
-        m_driveSystem = subsystem;
-        addRequirements(m_driveSystem);
+        driveSubsystem = subsystem;
+        addRequirements(driveSubsystem);
 
         if (Math.signum(rotationDegrees) < 0) {
             rotationSpeed = 1.0;
@@ -31,12 +31,12 @@ public class RotateRobotCommand extends CommandBase {
         encoderDistancePerPulse = 2.0 * Math.PI / encoderCountsPerRev;
         encoderCountsToRotate = rotationRadians / encoderDistancePerPulse * 145 / 180;
         initialEncoderPos = 0;
-        m_driveSystem.getLeftFrontMotor().getEncoder().setPosition(0);
+        driveSubsystem.getLeftFrontMotor().getEncoder().setPosition(0);
     }
 
     @Override
     public void initialize() {
-        m_driveSystem.getLeftFrontMotor().getEncoder().setPosition(0);
+        driveSubsystem.getLeftFrontMotor().getEncoder().setPosition(0);
         System.out.println("RotateRobotCommand started");
         System.out.println("rotation degrees: " + rotationDegrees);
         System.out.println("initial encoder position: " + initialEncoderPos);
@@ -46,17 +46,17 @@ public class RotateRobotCommand extends CommandBase {
 
     @Override
     public void execute() {
-        m_driveSystem.arcadeDrive(0, rotationSpeed);
+        driveSubsystem.arcadeDrive(0, rotationSpeed);
     }
 
     @Override
     public void end(boolean interrupted) {
-        m_driveSystem.arcadeDrive(0, 0);
+        driveSubsystem.arcadeDrive(0, 0);
     }
 
     @Override
     public boolean isFinished() {
-        currentEncoderPos = m_driveSystem.getLeftFrontMotor().getEncoder().getPosition();
+        currentEncoderPos = driveSubsystem.getLeftFrontMotor().getEncoder().getPosition();
         System.out.println("current encoder position: " + currentEncoderPos);
 
         if (currentEncoderPos > encoderCountsToRotate + initialEncoderPos) {

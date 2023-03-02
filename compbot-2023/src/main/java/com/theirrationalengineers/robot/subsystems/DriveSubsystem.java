@@ -2,36 +2,32 @@ package com.theirrationalengineers.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.theirrationalengineers.robot.Constants;
+import com.theirrationalengineers.robot.Constants.DriveConstants;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
-    private final CANSparkMax leftFrontMotor = new CANSparkMax(1, MotorType.kBrushless);
-    private final CANSparkMax leftRearMotor = new CANSparkMax(2, MotorType.kBrushless);
-    private final CANSparkMax rightFrontMotor = new CANSparkMax(3, MotorType.kBrushless);
-    private final CANSparkMax rightRearMotor = new CANSparkMax(4, MotorType.kBrushless);
+    private final CANSparkMax leftFrontMotor = new CANSparkMax(DriveConstants.LEFT_FRONT_MOTOR_PORT, MotorType.kBrushless);
+    private final CANSparkMax leftRearMotor = new CANSparkMax(DriveConstants.LEFT_REAR_MOTOR_PORT, MotorType.kBrushless);
+    private final CANSparkMax rightFrontMotor = new CANSparkMax(DriveConstants.RIGHT_FRONT_MOTOR_PORT, MotorType.kBrushless);
+    private final CANSparkMax rightRearMotor = new CANSparkMax(DriveConstants.RIGHT_REAR_MOTOR_PORT, MotorType.kBrushless);
   
-    private final MotorControllerGroup leftSide = new MotorControllerGroup(leftFrontMotor, leftRearMotor); 
-    private final MotorControllerGroup rightSide = new MotorControllerGroup(rightFrontMotor, rightRearMotor);
-  
-    private final DifferentialDrive differentialDrive = new DifferentialDrive(leftSide, rightSide);
+    private final DifferentialDrive differentialDrive = new DifferentialDrive(leftFrontMotor, rightFrontMotor);
 
     public DriveSubsystem() {
         leftFrontMotor.restoreFactoryDefaults();
         leftRearMotor.restoreFactoryDefaults();
         rightFrontMotor.restoreFactoryDefaults();
-        rightFrontMotor.restoreFactoryDefaults();
+        rightRearMotor.restoreFactoryDefaults();
 
-        leftSide.setInverted(false);
-        rightSide.setInverted(true);
+        leftFrontMotor.setInverted(false);
+        rightFrontMotor.setInverted(true);
 
         leftRearMotor.follow(leftFrontMotor);
         rightRearMotor.follow(rightFrontMotor);
 
-        differentialDrive.setMaxOutput(Constants.DriveConstants.kMaxDriveSpeed);
+        differentialDrive.setMaxOutput(DriveConstants.MAX_DRIVE_SPEED);
     }
 
     @Override

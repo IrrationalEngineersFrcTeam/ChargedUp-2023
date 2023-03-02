@@ -5,11 +5,11 @@ import com.theirrationalengineers.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class FindAprilTagCommand extends CommandBase {
-    private final VisionSubsystem m_visionSystem;
+    private final VisionSubsystem visionSubsystem;
 
     public FindAprilTagCommand(VisionSubsystem subsystem) {
-        m_visionSystem = subsystem;
-        addRequirements(m_visionSystem);
+        visionSubsystem = subsystem;
+        addRequirements(visionSubsystem);
     }
 
     @Override

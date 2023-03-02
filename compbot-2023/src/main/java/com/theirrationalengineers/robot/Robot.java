@@ -8,16 +8,16 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class Robot extends TimedRobot {
-    private Command m_autonomousCommand;
-    private RobotContainer m_robotContainer;
-    private DriveSubsystem m_driveSubsystem;
-    private CommandXboxController xboxController;
+    private RobotContainer robotContainer;
+    private DriveSubsystem driveSubsystem;
+    private CommandXboxController robotController;
+    private Command autonomousCommand;
 
     @Override
     public void robotInit() {
-        m_robotContainer = RobotContainer.getInstance();
-        m_driveSubsystem = m_robotContainer.m_driveSystem;
-        xboxController = m_robotContainer.getXboxController();
+        robotContainer = new RobotContainer();
+        driveSubsystem = robotContainer.getDriveSubsystem();
+        robotController = robotContainer.getRobotController();
     }
 
     @Override
@@ -33,10 +33,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+        autonomousCommand = robotContainer.getAutonomousCommand();
 
-        if (m_autonomousCommand != null) {
-            m_autonomousCommand.schedule();
+        if (autonomousCommand != null) {
+            autonomousCommand.schedule();
         }
     }
 
@@ -45,14 +45,14 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        if (m_autonomousCommand != null) {
-            m_autonomousCommand.cancel();
+        if (autonomousCommand != null) {
+            autonomousCommand.cancel();
         }
     }
 
     @Override
     public void teleopPeriodic() {
-        m_driveSubsystem.arcadeDrive(-xboxController.getLeftY(), -xboxController.getRightX());
+        driveSubsystem.arcadeDrive(-robotController.getLeftY(), -robotController.getRightX());
     }
 
     @Override

@@ -1,60 +1,59 @@
 package com.theirrationalengineers.robot;
 
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.theirrationalengineers.robot.commands.AutonomousCommand;
+import com.theirrationalengineers.robot.commands.RotateRobotCommand;
+import com.theirrationalengineers.robot.subsystems.ArmSubsystem;
+import com.theirrationalengineers.robot.subsystems.DriveSubsystem;
+
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.networktables.GenericEntry;
-
-import com.theirrationalengineers.robot.commands.*;
-import com.theirrationalengineers.robot.subsystems.*;
 
 public class RobotContainer {
-  private static final RobotContainer m_robotContainer = new RobotContainer();
-  
-  public final VisionSubsystem m_visionSystem = new VisionSubsystem();
-  public final ArmSubsystem m_armSystem = new ArmSubsystem();
-  public final DriveSubsystem m_driveSystem = new DriveSubsystem();
+  private final ArmSubsystem armSubsystem = new ArmSubsystem();
+  private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
-  private final CommandXboxController xboxController = new CommandXboxController(0);
+  private final CommandXboxController robotController = new CommandXboxController(0);
 
-  private final InstantCommand extendPistonCommand = new InstantCommand(m_armSystem::extendPiston, m_armSystem);
-  private final InstantCommand retractPistonCommand = new InstantCommand(m_armSystem::retractPiston, m_armSystem);
-  private final InstantCommand toggleCompressorCommand = new InstantCommand(m_armSystem::toggleCompressor, m_armSystem);
+  private final InstantCommand extendPistonCommand = new InstantCommand(armSubsystem::extendPiston, armSubsystem);
+  private final InstantCommand retractPistonCommand = new InstantCommand(armSubsystem::retractPiston, armSubsystem);
+  private final InstantCommand toggleCompressorCommand = new InstantCommand(armSubsystem::toggleCompressor, armSubsystem);
 
-  private final SendableChooser<Command> m_chooser = new SendableChooser<>();
+  private final SendableChooser<Command> chooser = new SendableChooser<>();
 
-  private RobotContainer() {
+  public RobotContainer() {
     ShuffleboardTab rotateRobotTab = Shuffleboard.getTab("Rotate robot");
     GenericEntry rotationDegreesEntry = rotateRobotTab.add("Rotation degrees", 1).getEntry();
 
-    SmartDashboard.putData("Rotate robot", new RotateRobotCommand(m_driveSystem, rotationDegreesEntry.getDouble(0)));
+    SmartDashboard.putData("Rotate robot", new RotateRobotCommand(driveSubsystem, rotationDegreesEntry.getDouble(0)));
     SmartDashboard.putNumber("Rotation degrees", rotationDegreesEntry.getDouble(0));
 
-    m_chooser.setDefaultOption("Autonomous Command", new AutonomousCommand());
-    SmartDashboard.putData("Auto Mode", m_chooser);
+    chooser.setDefaultOption("Autonomous Command", new AutonomousCommand());
+    SmartDashboard.putData("Auto Mode", chooser);
 
     configureButtonBindings();
   }
 
-  public static RobotContainer getInstance() {
-    return m_robotContainer;
-  }
-
   private void configureButtonBindings() {
-        xboxController.a().onTrue(extendPistonCommand);
-        xboxController.b().onTrue(retractPistonCommand);
-        xboxController.x().onTrue(toggleCompressorCommand);
+    robotController.a().onTrue(extendPistonCommand);
+    robotController.b().onTrue(retractPistonCommand);
+    robotController.x().onTrue(toggleCompressorCommand);
   }
 
-  public CommandXboxController getXboxController() {
-    return xboxController;
+  public DriveSubsystem getDriveSubsystem() {
+    return driveSubsystem;
+  }
+
+  public CommandXboxController getRobotController() {
+    return robotController;
   }
 
   public Command getAutonomousCommand() {
-    return m_chooser.getSelected();
+    return chooser.getSelected();
   }
 }

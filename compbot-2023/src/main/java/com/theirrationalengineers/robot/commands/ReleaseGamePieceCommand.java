@@ -5,11 +5,11 @@ import com.theirrationalengineers.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ReleaseGamePieceCommand extends CommandBase {
-    private final ArmSubsystem m_armSystem;
+    private final ArmSubsystem armSubsystem;
 
     public ReleaseGamePieceCommand(ArmSubsystem subsystem) {
-        m_armSystem = subsystem;
-        addRequirements(m_armSystem);
+        armSubsystem = subsystem;
+        addRequirements(armSubsystem);
     }
 
     @Override

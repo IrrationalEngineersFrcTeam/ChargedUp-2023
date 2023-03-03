@@ -6,15 +6,16 @@ public class Constants {
         public static final int LOW_ARM_GOAL = 0;
         public static final int MID_ARM_GOAL = 0;
         public static final int HIGH_ARM_GOAL = 0;
-        public static double S_VOLTS;
-        public static double G_VOLTS;
-        public static double V_VOLT_SECOND_PER_RAD;
-        public static double A_VOLT_SECOND_SQUARED_PER_RAD;
-        public static double P;
-        public static double MAX_VELOCITY_RAD_PER_SECOND;
-        public static double MAX_ACCELERATION_RAD_PER_SEC_SQUARED;
-        public static double ENCODER_DISTANCE_PER_PULSE;
-        public static double ARM_OFFSET_RADS;
+        public static final double MAX_VELOCITY_RAD_PER_SECOND = 3.0;
+        public static final double MAX_ACCELERATION_RAD_PER_SEC_SQUARED = 10.0;
+        public static final double P = 4.0;
+        public static final double S_VOLTS = 0.0;
+        public static final double G_VOLTS = 0.0;
+        public static final double V_VOLT_SECOND_PER_RAD = 0.5;
+        public static final double A_VOLT_SECOND_SQUARED_PER_RAD = 0.1;
+        public static final double ARM_GEARBOX_RATIO = 1.0;
+        public static final double ENCODER_PCF = 2.0 * Math.PI / ARM_GEARBOX_RATIO;
+        public static final double ARM_OFFSET_RADS = 0.5;
     }
 
     public static final class DrivetrainConstants {

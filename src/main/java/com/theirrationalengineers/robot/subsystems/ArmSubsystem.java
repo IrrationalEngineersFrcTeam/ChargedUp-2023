@@ -19,7 +19,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     private static final ProfiledPIDController PID = new ProfiledPIDController(
         ArmConstants.P, 0, 0, CONSTRAINTS);
 
-    private final ArmFeedforward armFeedForward = new ArmFeedforward(
+    private final ArmFeedforward armFeedforward = new ArmFeedforward(
             ArmConstants.S_VOLTS, ArmConstants.G_VOLTS, ArmConstants.V_VOLT_SECOND_PER_RAD, ArmConstants.A_VOLT_SECOND_SQUARED_PER_RAD);
 
     private final CANSparkMax motor = new CANSparkMax(
@@ -27,25 +27,25 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
     private final RelativeEncoder encoder = motor.getEncoder();
 
-    private boolean useFeedForward;
+    private boolean useFeedforward;
     private boolean isIntakeLowered;
 
-    public ArmSubsystem(boolean useFeedForward) {
+    public ArmSubsystem(boolean useFeedforward) {
         super(PID, 0);
 
-        this.useFeedForward = useFeedForward;
+        this.useFeedforward = useFeedforward;
         isIntakeLowered = false;
-        encoder.setPositionConversionFactor(ArmConstants.ENCODER_DISTANCE_PER_PULSE);
+        encoder.setPositionConversionFactor(ArmConstants.ENCODER_PCF);
         setGoal(ArmConstants.ARM_OFFSET_RADS);
     }
 
     @Override
     public void useOutput(double output, TrapezoidProfile.State setpoint) {
-      double feedforward = armFeedForward.calculate(setpoint.position, setpoint.velocity);
+      double feedforward = armFeedforward.calculate(setpoint.position, setpoint.velocity);
       SmartDashboard.putNumber("Motor output", output);
       SmartDashboard.putNumber("Motor feedforward", feedforward);
   
-      if (useFeedForward) {
+      if (useFeedforward) {
         motor.setVoltage(output + feedforward);
       } else {
         motor.setVoltage(output);

@@ -1,11 +1,11 @@
 package com.theirrationalengineers.robot.commands;
 
-import com.theirrationalengineers.robot.subsystems.DriveSubsystem;
+import com.theirrationalengineers.robot.subsystems.DrivetrainSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class RotateRobotCommand extends CommandBase {
-    private final DriveSubsystem driveSubsystem;
+    private final DrivetrainSubsystem drivetrainSubsystem;
     private double rotationSpeed;
     private double rotationDegrees;
     private double rotationRadians;
@@ -15,9 +15,9 @@ public class RotateRobotCommand extends CommandBase {
     private double initialEncoderPos;
     private double currentEncoderPos;
 
-    public RotateRobotCommand(DriveSubsystem subsystem, double rotationDegrees) {
-        driveSubsystem = subsystem;
-        addRequirements(driveSubsystem);
+    public RotateRobotCommand(DrivetrainSubsystem subsystem, double rotationDegrees) {
+        drivetrainSubsystem = subsystem;
+        addRequirements(drivetrainSubsystem);
 
         if (Math.signum(rotationDegrees) < 0) {
             rotationSpeed = 1.0;
@@ -31,12 +31,12 @@ public class RotateRobotCommand extends CommandBase {
         encoderDistancePerPulse = 2.0 * Math.PI / encoderCountsPerRev;
         encoderCountsToRotate = rotationRadians / encoderDistancePerPulse * 145 / 180;
         initialEncoderPos = 0;
-        driveSubsystem.getLeftFrontMotor().getEncoder().setPosition(0);
+        drivetrainSubsystem.getFrontLeftMotor().getEncoder().setPosition(0);
     }
 
     @Override
     public void initialize() {
-        driveSubsystem.getLeftFrontMotor().getEncoder().setPosition(0);
+        drivetrainSubsystem.getFrontLeftMotor().getEncoder().setPosition(0);
         System.out.println("RotateRobotCommand started");
         System.out.println("rotation degrees: " + rotationDegrees);
         System.out.println("initial encoder position: " + initialEncoderPos);
@@ -46,17 +46,17 @@ public class RotateRobotCommand extends CommandBase {
 
     @Override
     public void execute() {
-        driveSubsystem.arcadeDrive(0, rotationSpeed);
+        drivetrainSubsystem.arcadeDrive(0, rotationSpeed);
     }
 
     @Override
     public void end(boolean interrupted) {
-        driveSubsystem.arcadeDrive(0, 0);
+        drivetrainSubsystem.arcadeDrive(0, 0);
     }
 
     @Override
     public boolean isFinished() {
-        currentEncoderPos = driveSubsystem.getLeftFrontMotor().getEncoder().getPosition();
+        currentEncoderPos = drivetrainSubsystem.getFrontLeftMotor().getEncoder().getPosition();
         System.out.println("current encoder position: " + currentEncoderPos);
 
         if (currentEncoderPos > encoderCountsToRotate + initialEncoderPos) {

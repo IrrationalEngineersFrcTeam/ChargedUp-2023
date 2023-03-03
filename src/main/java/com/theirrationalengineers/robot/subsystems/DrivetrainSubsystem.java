@@ -23,7 +23,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final DifferentialDrive differentialDrive = new DifferentialDrive(
         frontLeftMotor, frontRightMotor);
 
-    private double maxDriveSpeed;
+    private double maxOutput;
 
     public DrivetrainSubsystem() {
         frontLeftMotor.restoreFactoryDefaults();
@@ -37,8 +37,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
         rearLeftMotor.follow(frontLeftMotor);
         rearRightMotor.follow(frontRightMotor);
 
-        differentialDrive.setMaxOutput(DrivetrainConstants.INITIAL_MAX_DRIVE_SPEED);
-        maxDriveSpeed = DrivetrainConstants.INITIAL_MAX_DRIVE_SPEED;
+        differentialDrive.setMaxOutput(DrivetrainConstants.INITIAL_MAX_OUTPUT);
+        maxOutput = DrivetrainConstants.INITIAL_MAX_OUTPUT;
     }
 
     @Override
@@ -52,16 +52,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public void increaseMaxOutput() {
-        if (maxDriveSpeed < 1.0) {
-            maxDriveSpeed += 0.05;
-            differentialDrive.setMaxOutput(maxDriveSpeed);
+        if (maxOutput < 1.0) {
+            maxOutput += 0.05;
+            differentialDrive.setMaxOutput(maxOutput);
         }
     }
 
     public void decreaseMaxOutput() {
-        if (maxDriveSpeed > 0.1) {
-            maxDriveSpeed -= 0.05;
-            differentialDrive.setMaxOutput(maxDriveSpeed);
+        if (maxOutput > 0.1) {
+            maxOutput -= 0.05;
+            differentialDrive.setMaxOutput(maxOutput);
         }
     }
 

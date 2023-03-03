@@ -9,14 +9,14 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class Robot extends TimedRobot {
     private RobotContainer robotContainer;
-    private DrivetrainSubsystem driveSubsystem;
+    private DrivetrainSubsystem drivetrainSubsystem;
     private CommandXboxController robotController;
     private Command autonomousCommand;
 
     @Override
     public void robotInit() {
         robotContainer = new RobotContainer();
-        driveSubsystem = robotContainer.getDrivetrainSubsystem();
+        drivetrainSubsystem = robotContainer.getDrivetrainSubsystem();
         robotController = robotContainer.getRobotController();
     }
 
@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-        driveSubsystem.arcadeDrive(-robotController.getLeftY(), -robotController.getRightX());
+        drivetrainSubsystem.arcadeDrive(-robotController.getLeftY(), -robotController.getRightX());
     }
 
     @Override

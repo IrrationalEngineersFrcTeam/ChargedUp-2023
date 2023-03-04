@@ -8,22 +8,16 @@ import com.theirrationalengineers.robot.Constants.ArmConstants;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 
 public class ArmSubsystem extends ProfiledPIDSubsystem {
-    private static final Constraints CONSTRAINTS = new TrapezoidProfile.Constraints(
-        ArmConstants.MAX_VELOCITY_RAD_PER_SECOND, ArmConstants.MAX_ACCELERATION_RAD_PER_SEC_SQUARED);
-
-    private static final ProfiledPIDController PID = new ProfiledPIDController(
-        ArmConstants.P, 0, 0, CONSTRAINTS);
-
     private final ArmFeedforward armFeedforward = new ArmFeedforward(
-            ArmConstants.S_VOLTS, ArmConstants.G_VOLTS, ArmConstants.V_VOLT_SECOND_PER_RAD, ArmConstants.A_VOLT_SECOND_SQUARED_PER_RAD);
+            ArmConstants.S_VOLTS, ArmConstants.G_VOLTS, 
+            ArmConstants.V_VOLT_SECOND_PER_RAD, ArmConstants.A_VOLT_SECOND_SQUARED_PER_RAD);
 
     private final CANSparkMax motor = new CANSparkMax(
-        ArmConstants.MOTOR_PORT, MotorType.kBrushless);
+        ArmConstants.MOTOR_ID, MotorType.kBrushless);
 
     private final RelativeEncoder encoder = motor.getEncoder();
 
@@ -31,12 +25,21 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     private boolean isIntakeLowered;
 
     public ArmSubsystem(boolean useFeedforward) {
-        super(PID, 0);
+        super(
+            new ProfiledPIDController(
+                ArmConstants.P,
+                0,
+                0,
+                new TrapezoidProfile.Constraints(
+                    ArmConstants.MAX_VELOCITY_RAD_PER_SECOND,
+                    ArmConstants.MAX_ACCELERATION_RAD_PER_SEC_SQUARED)),
+            0);
 
         this.useFeedforward = useFeedforward;
         isIntakeLowered = false;
-        encoder.setPositionConversionFactor(ArmConstants.ENCODER_PCF);
-        setGoal(ArmConstants.ARM_OFFSET_RADS);
+        encoder.setPositionConversionFactor(ArmConstants.POSITION_CONVERSION_FACTOR);
+        setGoal(ArmConstants.OFFSET);
+        updateSmartDashboard();
     }
 
     @Override
@@ -44,6 +47,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
       double feedforward = armFeedforward.calculate(setpoint.position, setpoint.velocity);
       SmartDashboard.putNumber("Motor output", output);
       SmartDashboard.putNumber("Motor feedforward", feedforward);
+      SmartDashboard.putNumber("Encoder position", encoder.getPosition());
   
       if (useFeedforward) {
         motor.setVoltage(output + feedforward);
@@ -54,17 +58,35 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
     @Override
     public double getMeasurement() {
-      return encoder.getPosition() + ArmConstants.ARM_OFFSET_RADS;
+      return encoder.getPosition() + ArmConstants.OFFSET;
     }
 
     public void positionArm(double goal) {
-        setGoal(goal);
-        enable();
+        if ((goal <= ArmConstants.HIGH_GOAL) && (goal >= ArmConstants.LOW_GOAL)) {
+            setGoal(goal);
+            enable();
+        } else {
+            System.out.println("Arm out of bounds! (goal: " + goal + ")");
+        }
     }
 
-    public void raiseArm() {}
+    public void raiseArm() {
+        double currentPosition = getMeasurement();
+        
+        if (currentPosition < (ArmConstants.HIGH_GOAL - ArmConstants.MOVE_ARM_DELTA)) {
+            setGoal(ArmConstants.MOVE_ARM_DELTA + currentPosition);
+            enable();
+        }
+    }
 
-    public void lowerArm() {}
+    public void lowerArm() {
+        double currentPosition = getMeasurement();
+
+        if (currentPosition > (ArmConstants.OFFSET + ArmConstants.MOVE_ARM_DELTA)) {
+            setGoal(currentPosition - ArmConstants.MOVE_ARM_DELTA);
+            enable();
+        }
+    }
 
     public void raiseIntake() {
         isIntakeLowered = false;

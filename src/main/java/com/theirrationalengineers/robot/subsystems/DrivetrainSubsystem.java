@@ -9,16 +9,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DrivetrainSubsystem extends SubsystemBase {
     private final CANSparkMax frontLeftMotor = new CANSparkMax(
-        DrivetrainConstants.FRONT_LEFT_MOTOR_PORT, MotorType.kBrushless);
+        DrivetrainConstants.FRONT_LEFT_MOTOR_ID, MotorType.kBrushless);
 
     private final CANSparkMax rearLeftMotor = new CANSparkMax(
-        DrivetrainConstants.REAR_LEFT_MOTOR_PORT, MotorType.kBrushless);
+        DrivetrainConstants.REAR_LEFT_MOTOR_ID, MotorType.kBrushless);
 
     private final CANSparkMax frontRightMotor = new CANSparkMax(
-        DrivetrainConstants.FRONT_RIGHT_MOTOR_PORT, MotorType.kBrushless);
+        DrivetrainConstants.FRONT_RIGHT_MOTOR_ID, MotorType.kBrushless);
 
     private final CANSparkMax rearRightMotor = new CANSparkMax(
-        DrivetrainConstants.REAR_RIGHT_MOTOR_PORT, MotorType.kBrushless);
+        DrivetrainConstants.REAR_RIGHT_MOTOR_ID, MotorType.kBrushless);
   
     private final DifferentialDrive differentialDrive = new DifferentialDrive(
         frontLeftMotor, frontRightMotor);

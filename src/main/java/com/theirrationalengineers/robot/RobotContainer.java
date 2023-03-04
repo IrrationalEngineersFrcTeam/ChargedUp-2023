@@ -49,17 +49,17 @@ public class RobotContainer {
     
     // Position arm at low node
     robotController.a().onTrue(Commands.runOnce(() -> {
-      armSubsystem.positionArm(ArmConstants.LOW_ARM_GOAL);
+      armSubsystem.positionArm(ArmConstants.LOW_GOAL);
     }, armSubsystem));
 
     // Position arm at mid node
     robotController.b().onTrue(Commands.runOnce(() -> {
-      armSubsystem.positionArm(ArmConstants.MID_ARM_GOAL);
+      armSubsystem.positionArm(ArmConstants.MID_GOAL);
     }, armSubsystem));
 
     // Position arm at high node
     robotController.y().onTrue(Commands.runOnce(() -> {
-      armSubsystem.positionArm(ArmConstants.HIGH_ARM_GOAL);
+      armSubsystem.positionArm(ArmConstants.HIGH_GOAL);
     }, armSubsystem));
 
     // Toggle lower and raise intake
@@ -80,14 +80,14 @@ public class RobotContainer {
 
   private void configureDashboard() {
     // Needs reworking - should be replaced with Shuffleboard
-    ShuffleboardTab rotateRobotTab = Shuffleboard.getTab("Rotate robot");
-    GenericEntry rotationDegreesEntry = rotateRobotTab.add("Rotation degrees", 1).getEntry();
+    //ShuffleboardTab rotateRobotTab = Shuffleboard.getTab("Rotate robot");
+    //GenericEntry rotationDegreesEntry = rotateRobotTab.add("Rotation degrees", 1).getEntry();
 
-    SmartDashboard.putData("Rotate robot", new RotateRobotCommand(drivetrainSubsystem, rotationDegreesEntry.getDouble(0)));
-    SmartDashboard.putNumber("Rotation degrees", rotationDegreesEntry.getDouble(0));
+    //SmartDashboard.putData("Rotate robot", new RotateRobotCommand(drivetrainSubsystem, rotationDegreesEntry.getDouble(0)));
+    //SmartDashboard.putNumber("Rotation degrees", rotationDegreesEntry.getDouble(0));
 
-    chooser.setDefaultOption("Autonomous Command", new AutonomousCommand());
-    SmartDashboard.putData("Auto Mode", chooser);
+    //chooser.setDefaultOption("Autonomous Command", new AutonomousCommand());
+    //SmartDashboard.putData("Auto Mode", chooser);
   }
 
   public DrivetrainSubsystem getDrivetrainSubsystem() {

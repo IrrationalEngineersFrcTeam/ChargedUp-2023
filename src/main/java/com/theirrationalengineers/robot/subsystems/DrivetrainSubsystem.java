@@ -4,10 +4,14 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.theirrationalengineers.robot.Constants.DrivetrainConstants;
 
+import edu.wpi.first.math.controller.DifferentialDriveFeedforward;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class DrivetrainSubsystem extends SubsystemBase {
+public class DrivetrainSubsystem extends ProfiledPIDSubsystem {
     private final CANSparkMax frontLeftMotor = new CANSparkMax(
         DrivetrainConstants.FRONT_LEFT_MOTOR_ID, MotorType.kBrushless);
 
@@ -22,6 +26,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
   
     private final DifferentialDrive differentialDrive = new DifferentialDrive(
         frontLeftMotor, frontRightMotor);
+
+    private final DifferentialDriveFeedforward feedforward = new DifferentialDriveFeedforward(
+            DrivetrainConstants.S_VOLTS, DrivetrainConstants.G_VOLTS,
+            DrivetrainConstants.V_VOLT_SECOND_PER_RAD, DrivetrainConstants.A_VOLT_SECOND_SQUARED_PER_RAD);
 
     private double maxOutput;
 
@@ -42,14 +50,24 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {}
+    public void useOutput(double output, TrapezoidProfile.State setpoint) {
+
+    }
 
     @Override
-    public void simulationPeriodic() {}
-
-    public void arcadeDrive(double forwardSpeed, double rotationSpeed) {
-        differentialDrive.arcadeDrive(forwardSpeed, rotationSpeed);
+    public double getMeasurement() {
+        return 0;
     }
+
+    public void arcadeDrive(double forward, double rotation) {
+        differentialDrive.arcadeDrive(forward, rotation);
+    }
+
+    public void tankDrive(double left, double right) {
+        differentialDrive.tankDrive(left, right);
+    }
+
+    public void driveDistance() {}
 
     public void increaseMaxOutput() {
         if (maxOutput < 1.0) {

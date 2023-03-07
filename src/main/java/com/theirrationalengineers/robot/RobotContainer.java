@@ -1,25 +1,21 @@
 package com.theirrationalengineers.robot;
 
 import com.theirrationalengineers.robot.Constants.ArmConstants;
-import com.theirrationalengineers.robot.commands.AutonomousCommand;
-import com.theirrationalengineers.robot.commands.RotateRobotCommand;
 import com.theirrationalengineers.robot.subsystems.ArmSubsystem;
 import com.theirrationalengineers.robot.subsystems.DrivetrainSubsystem;
 
-import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class RobotContainer {
-  private final ArmSubsystem armSubsystem = new ArmSubsystem(true);
-  private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
+  private final ArmSubsystem arm = new ArmSubsystem(true);
+  private final DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
   private final CommandXboxController robotController = new CommandXboxController(0);
   private final SendableChooser<Command> chooser = new SendableChooser<>();
+  private final SlewRateLimiter slewRateLimiter = new SlewRateLimiter(0.5);
 
   public RobotContainer() {
     configureButtonBindings();
@@ -28,54 +24,47 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     // Increase max output of drivetrain
-    robotController.povRight().onTrue(Commands.runOnce(() -> {
-      drivetrainSubsystem.increaseMaxOutput();
-    }, drivetrainSubsystem));
+    robotController.povRight().onTrue(Commands.runOnce(
+            drivetrain::increaseMaxOutput, drivetrain));
 
     // Decrease max output of drivetrain
-    robotController.povLeft().onTrue(Commands.runOnce(() -> {
-      drivetrainSubsystem.decreaseMaxOutput();
-    }, drivetrainSubsystem));
+    robotController.povLeft().onTrue(Commands.runOnce(
+            drivetrain::decreaseMaxOutput, drivetrain));
 
     // Raise arm
-    robotController.povUp().onTrue(Commands.runOnce(() -> {
-      armSubsystem.raiseArm();
-    }, armSubsystem));
+    robotController.povUp().onTrue(Commands.runOnce(
+            arm::raiseArm, arm));
 
     // Lower arm
-    robotController.povDown().onTrue(Commands.runOnce(() -> {
-      armSubsystem.lowerArm();
-    }, armSubsystem));
+    robotController.povDown().onTrue(Commands.runOnce(
+            arm::lowerArm, arm));
     
     // Position arm at low node
     robotController.a().onTrue(Commands.runOnce(() -> {
-      armSubsystem.positionArm(ArmConstants.LOW_GOAL);
-    }, armSubsystem));
+      arm.positionArm(ArmConstants.LOW_GOAL);
+    }, arm));
 
     // Position arm at mid node
     robotController.b().onTrue(Commands.runOnce(() -> {
-      armSubsystem.positionArm(ArmConstants.MID_GOAL);
-    }, armSubsystem));
+      arm.positionArm(ArmConstants.MID_GOAL);
+    }, arm));
 
     // Position arm at high node
     robotController.y().onTrue(Commands.runOnce(() -> {
-      armSubsystem.positionArm(ArmConstants.HIGH_GOAL);
-    }, armSubsystem));
+      arm.positionArm(ArmConstants.HIGH_GOAL);
+    }, arm));
 
     // Toggle lower and raise intake
-    robotController.x().onTrue(Commands.runOnce(() -> {
-      armSubsystem.toggleIntakePosition();
-    }, armSubsystem));
+    robotController.x().onTrue(Commands.runOnce(
+            arm::toggleIntakePosition, arm));
 
     // Grab game piece
-    robotController.rightBumper().onTrue(Commands.runOnce(() -> {
-      armSubsystem.grabGamePiece();
-    }, armSubsystem));
+    robotController.rightBumper().onTrue(Commands.runOnce(
+            arm::grabGamePiece, arm));
 
     // Release game piece
-    robotController.leftBumper().onTrue(Commands.runOnce(() -> {
-      armSubsystem.releaseGamePiece();
-    }, armSubsystem));
+    robotController.leftBumper().onTrue(Commands.runOnce(
+            arm::releaseGamePiece, arm));
   }
 
   private void configureDashboard() {
@@ -90,8 +79,8 @@ public class RobotContainer {
     //SmartDashboard.putData("Auto Mode", chooser);
   }
 
-  public DrivetrainSubsystem getDrivetrainSubsystem() {
-    return drivetrainSubsystem;
+  public DrivetrainSubsystem getDrivetrain() {
+    return drivetrain;
   }
 
   public CommandXboxController getRobotController() {
@@ -100,5 +89,9 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     return chooser.getSelected();
+  }
+
+  public SlewRateLimiter getSlewRateLimiter() {
+    return slewRateLimiter;
   }
 }

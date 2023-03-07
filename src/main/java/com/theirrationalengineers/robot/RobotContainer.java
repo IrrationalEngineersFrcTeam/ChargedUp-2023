@@ -4,7 +4,6 @@ import com.theirrationalengineers.robot.Constants.ArmConstants;
 import com.theirrationalengineers.robot.subsystems.ArmSubsystem;
 import com.theirrationalengineers.robot.subsystems.DrivetrainSubsystem;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -15,7 +14,6 @@ public class RobotContainer {
   private final DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
   private final CommandXboxController robotController = new CommandXboxController(0);
   private final SendableChooser<Command> chooser = new SendableChooser<>();
-  private final SlewRateLimiter slewRateLimiter = new SlewRateLimiter(0.5);
 
   public RobotContainer() {
     configureButtonBindings();
@@ -89,9 +87,5 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     return chooser.getSelected();
-  }
-
-  public SlewRateLimiter getSlewRateLimiter() {
-    return slewRateLimiter;
   }
 }

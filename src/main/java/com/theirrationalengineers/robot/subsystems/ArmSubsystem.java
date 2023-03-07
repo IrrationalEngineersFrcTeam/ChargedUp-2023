@@ -6,7 +6,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.theirrationalengineers.robot.Constants.ArmConstants;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
-import edu.wpi.first.math.controller.DifferentialDriveFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,15 +24,12 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     private boolean isIntakeLowered;
 
     public ArmSubsystem(boolean useFeedforward) {
-        super(
-            new ProfiledPIDController(
-                ArmConstants.P,
-                0,
-                0,
+        super(new ProfiledPIDController(
+                ArmConstants.P, 0.0, 0.0,
                 new TrapezoidProfile.Constraints(
-                    ArmConstants.MAX_VELOCITY_RAD_PER_SECOND,
-                    ArmConstants.MAX_ACCELERATION_RAD_PER_SEC_SQUARED)),
-            0);
+                        ArmConstants.MAX_VELOCITY_RAD_PER_SECOND,
+                        ArmConstants.MAX_ACCELERATION_RAD_PER_SEC_SQUARED)),
+                0);
 
         this.useFeedforward = useFeedforward;
         isIntakeLowered = false;
@@ -111,7 +107,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public void releaseGamePiece() {}
 
     public void updateSmartDashboard() {
-        SmartDashboard.putNumber("Encoder Postion", encoder.getPosition());
+        SmartDashboard.putNumber("Encoder Position", encoder.getPosition());
         SmartDashboard.putNumber("Encoder Velocity", encoder.getVelocity());
     }
 }

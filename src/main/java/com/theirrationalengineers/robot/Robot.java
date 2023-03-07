@@ -2,7 +2,6 @@ package com.theirrationalengineers.robot;
 
 import com.theirrationalengineers.robot.subsystems.DrivetrainSubsystem;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -12,7 +11,6 @@ public class Robot extends TimedRobot {
     private RobotContainer robotContainer;
     private DrivetrainSubsystem drivetrain;
     private CommandXboxController robotController;
-    private SlewRateLimiter slewRateLimiter;
     private Command autonomousCommand;
 
     @Override
@@ -20,7 +18,6 @@ public class Robot extends TimedRobot {
         robotContainer = new RobotContainer();
         drivetrain = robotContainer.getDrivetrain();
         robotController = robotContainer.getRobotController();
-        slewRateLimiter = robotContainer.getSlewRateLimiter();
     }
 
     @Override
@@ -55,8 +52,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-        drivetrain.arcadeDrive(
-                slewRateLimiter.calculate(-robotController.getLeftY()), -robotController.getRightX());
+        drivetrain.drive(-robotController.getLeftY(), -robotController.getRightX());
     }
 
     @Override

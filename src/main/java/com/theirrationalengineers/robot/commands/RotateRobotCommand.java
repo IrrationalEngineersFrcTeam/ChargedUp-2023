@@ -46,24 +46,21 @@ public class RotateRobotCommand extends CommandBase {
 
     @Override
     public void execute() {
-        drivetrainSubsystem.arcadeDrive(0, rotationSpeed);
+        drivetrainSubsystem.drive(0, rotationSpeed);
     }
 
     @Override
     public void end(boolean interrupted) {
-        drivetrainSubsystem.arcadeDrive(0, 0);
+        drivetrainSubsystem.drive(0, 0);
     }
 
     @Override
     public boolean isFinished() {
         currentEncoderPos = drivetrainSubsystem.getFrontLeftMotor().getEncoder().getPosition();
+
         System.out.println("current encoder position: " + currentEncoderPos);
 
-        if (currentEncoderPos > encoderCountsToRotate + initialEncoderPos) {
-            return true;
-        }
-
-        return false;
+        return currentEncoderPos > encoderCountsToRotate + initialEncoderPos;
     }
 
     @Override

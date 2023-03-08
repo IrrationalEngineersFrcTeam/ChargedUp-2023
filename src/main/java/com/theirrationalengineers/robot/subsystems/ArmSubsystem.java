@@ -12,49 +12,43 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 
 public class ArmSubsystem extends ProfiledPIDSubsystem {
+    private final ArmFeedforward feedforward = new ArmFeedforward(
+        ArmConstants.S_VOLTS, ArmConstants.G_VOLTS, 
+        ArmConstants.V_VOLT_SECOND_PER_RAD, ArmConstants.A_VOLT_SECOND_SQUARED_PER_RAD);
+
     private final CANSparkMax motor = new CANSparkMax(
             ArmConstants.MOTOR_ID, MotorType.kBrushless);
 
-    private final RelativeEncoder encoder = motor.getEncoder();
-
-    private final ArmFeedforward feedforward = new ArmFeedforward(
-            ArmConstants.S_VOLTS, ArmConstants.G_VOLTS,
-            ArmConstants.V_VOLT_SECOND_PER_RAD, ArmConstants.A_VOLT_SECOND_SQUARED_PER_RAD);
-    private final boolean useFeedforward;
+    private final RelativeEncoder encoder;
     private boolean isIntakeLowered;
 
-    public ArmSubsystem(boolean useFeedforward) {
-        super(new ProfiledPIDController(
-                ArmConstants.P, 0.0, 0.0,
+    public ArmSubsystem() {
+        super(
+            new ProfiledPIDController(
+                ArmConstants.P, 0.0, 0.0, 
                 new TrapezoidProfile.Constraints(
-                        ArmConstants.MAX_VELOCITY_RAD_PER_SECOND,
-                        ArmConstants.MAX_ACCELERATION_RAD_PER_SEC_SQUARED)),
-                0);
+                    ArmConstants.MAX_VELOCITY_RAD_PER_SECOND, 
+                    ArmConstants.MAX_ACCELERATION_RAD_PER_SEC_SQUARED)), 
+                    0);
 
-        this.useFeedforward = useFeedforward;
         isIntakeLowered = false;
+        encoder = motor.getEncoder();
+
         encoder.setPositionConversionFactor(ArmConstants.POSITION_CONVERSION_FACTOR);
         setGoal(ArmConstants.OFFSET);
-        updateSmartDashboard();
     }
 
     @Override
     public void useOutput(double output, TrapezoidProfile.State setpoint) {
       double feedforward = this.feedforward.calculate(setpoint.position, setpoint.velocity);
-      SmartDashboard.putNumber("Motor output", output);
-      SmartDashboard.putNumber("Motor feedforward", feedforward);
-      SmartDashboard.putNumber("Encoder position", encoder.getPosition());
-  
-      if (useFeedforward) {
-        motor.setVoltage(output + feedforward);
-      } else {
-        motor.setVoltage(output);
-      }
+
+      updateSmartDashboard(output, feedforward);
+      motor.setVoltage(output + feedforward);
     }
 
     @Override
     public double getMeasurement() {
-      return encoder.getPosition() + ArmConstants.OFFSET;
+      return (encoder.getPosition() * (2.0 * Math.PI / ArmConstants.GEARBOX_RATIO) + ArmConstants.OFFSET);
     }
 
     public void positionArm(double goal) {
@@ -62,7 +56,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
             setGoal(goal);
             enable();
         } else {
-            System.out.println("Arm out of bounds! (goal: " + goal + ")");
+            System.out.println("Arm went out of bounds! (goal: " + goal + ")");
         }
     }
 
@@ -70,7 +64,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
         double currentPosition = getMeasurement();
         
         if (currentPosition < (ArmConstants.HIGH_GOAL - ArmConstants.MOVE_ARM_DELTA)) {
-            setGoal(ArmConstants.MOVE_ARM_DELTA + currentPosition);
+            setGoal(currentPosition + ArmConstants.MOVE_ARM_DELTA);
             enable();
         }
     }
@@ -106,8 +100,10 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
     public void releaseGamePiece() {}
 
-    public void updateSmartDashboard() {
-        SmartDashboard.putNumber("Encoder Position", encoder.getPosition());
-        SmartDashboard.putNumber("Encoder Velocity", encoder.getVelocity());
+    public void updateSmartDashboard(double output, double feedforward) {
+        SmartDashboard.putNumber("Motor output", output);
+        SmartDashboard.putNumber("Motor feedforward", feedforward);
+        SmartDashboard.putNumber("Encoder position", encoder.getPosition());
+        SmartDashboard.putNumber("Encoder velocity", encoder.getVelocity());
     }
 }

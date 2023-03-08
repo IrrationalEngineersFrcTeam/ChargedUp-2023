@@ -1,6 +1,7 @@
 package com.theirrationalengineers.robot;
 
 import com.theirrationalengineers.robot.Constants.ArmConstants;
+import com.theirrationalengineers.robot.Constants.OIConstants;
 import com.theirrationalengineers.robot.subsystems.ArmSubsystem;
 import com.theirrationalengineers.robot.subsystems.DrivetrainSubsystem;
 
@@ -10,9 +11,9 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class RobotContainer {
-  private final ArmSubsystem arm = new ArmSubsystem(true);
+  private final ArmSubsystem arm = new ArmSubsystem();
   private final DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
-  private final CommandXboxController robotController = new CommandXboxController(0);
+  private final CommandXboxController robotController = new CommandXboxController(OIConstants.ROBOT_CONTROLLER_PORT);
   private final SendableChooser<Command> chooser = new SendableChooser<>();
 
   public RobotContainer() {

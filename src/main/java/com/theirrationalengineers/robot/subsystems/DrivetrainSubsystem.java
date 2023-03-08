@@ -2,10 +2,8 @@ package com.theirrationalengineers.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
 import com.theirrationalengineers.robot.Constants.DrivetrainConstants;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,8 +22,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
         DrivetrainConstants.REAR_RIGHT_MOTOR_ID, MotorType.kBrushless);
 
     private final DifferentialDrive differentialDrive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
-    private final PIDController pidController = new PIDController(0, 0.0, 0.0);
-    private final RelativeEncoder encoder = frontLeftMotor.getEncoder();
     private final SlewRateLimiter slewRateLimiter = new SlewRateLimiter(0.5);
     private double maxOutput;
 

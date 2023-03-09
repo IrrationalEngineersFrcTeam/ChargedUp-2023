@@ -2,7 +2,7 @@ package com.theirrationalengineers.robot;
 
 public class Constants {
     public static final class ArmConstants {
-        public static final int MOTOR_ID = 5;
+        public static final int MOTOR_ID = 8;
         public static final double S_VOLTS = 0.0;
         public static final double G_VOLTS = 0.0;
         public static final double V_VOLT_SECOND_PER_RAD = 0.5;
@@ -11,11 +11,11 @@ public class Constants {
         public static final double MAX_ACCELERATION_RAD_PER_SEC_SQUARED = 10.0;
         public static final double P = 4.0;
         public static final double POSITION_CONVERSION_FACTOR = 1.0;
-        public static final double GEARBOX_RATIO = 10.0;
+        public static final double GEARBOX_RATIO = 100.0;
         public static final double OFFSET = Math.toRadians(-90.0);
-        public static final double LOW_GOAL = Math.toRadians(45.0);
-        public static final double MID_GOAL = Math.toRadians(90.0);
-        public static final double HIGH_GOAL = Math.toRadians(135.0);
+        public static final double LOW_GOAL = Math.toRadians(-90.0);
+        public static final double MID_GOAL = Math.toRadians(0.0);
+        public static final double HIGH_GOAL = Math.toRadians(90.0);
         public static final double MOVE_ARM_DELTA = Math.toRadians(5.0);
     }
 

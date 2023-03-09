@@ -2,6 +2,7 @@ package com.theirrationalengineers.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.theirrationalengineers.robot.Constants.ArmConstants;
 
@@ -12,14 +13,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 
 public class ArmSubsystem extends ProfiledPIDSubsystem {
-    private final ArmFeedforward feedforward = new ArmFeedforward(
+    private final CANSparkMax motor = new CANSparkMax(
+        ArmConstants.MOTOR_ID, MotorType.kBrushless);
+
+    private final RelativeEncoder encoder = motor.getEncoder();
+
+    private final ArmFeedforward m_feedforward = new ArmFeedforward(
         ArmConstants.S_VOLTS, ArmConstants.G_VOLTS, 
         ArmConstants.V_VOLT_SECOND_PER_RAD, ArmConstants.A_VOLT_SECOND_SQUARED_PER_RAD);
 
-    private final CANSparkMax motor = new CANSparkMax(
-            ArmConstants.MOTOR_ID, MotorType.kBrushless);
-
-    private final RelativeEncoder encoder;
     private boolean isIntakeLowered;
 
     public ArmSubsystem() {
@@ -29,20 +31,24 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
                 new TrapezoidProfile.Constraints(
                     ArmConstants.MAX_VELOCITY_RAD_PER_SECOND, 
                     ArmConstants.MAX_ACCELERATION_RAD_PER_SEC_SQUARED)), 
-                    0);
+            0);
 
         isIntakeLowered = false;
-        encoder = motor.getEncoder();
 
+        motor.restoreFactoryDefaults();
+        motor.setIdleMode(IdleMode.kCoast);
         encoder.setPositionConversionFactor(ArmConstants.POSITION_CONVERSION_FACTOR);
         setGoal(ArmConstants.OFFSET);
     }
 
     @Override
     public void useOutput(double output, TrapezoidProfile.State setpoint) {
-      double feedforward = this.feedforward.calculate(setpoint.position, setpoint.velocity);
+      double feedforward = m_feedforward.calculate(setpoint.position, setpoint.velocity);
 
-      updateSmartDashboard(output, feedforward);
+      SmartDashboard.putNumber("Motor output", output);
+      SmartDashboard.putNumber("Motor feedforward", feedforward);
+      SmartDashboard.putNumber("Encoder position", encoder.getPosition());
+      SmartDashboard.putNumber("Encoder velocity", encoder.getVelocity());
       motor.setVoltage(output + feedforward);
     }
 
@@ -99,11 +105,4 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public void grabGamePiece() {}
 
     public void releaseGamePiece() {}
-
-    public void updateSmartDashboard(double output, double feedforward) {
-        SmartDashboard.putNumber("Motor output", output);
-        SmartDashboard.putNumber("Motor feedforward", feedforward);
-        SmartDashboard.putNumber("Encoder position", encoder.getPosition());
-        SmartDashboard.putNumber("Encoder velocity", encoder.getVelocity());
-    }
 }

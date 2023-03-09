@@ -27,6 +27,12 @@ public class Constants {
         public static final double INITIAL_MAX_OUTPUT = 0.2;
     }
 
+    public static final class IntakeConstants {
+        public static final int DOUBLE_SOLENOID_FWD_CHANNEL = 7;
+        public static final int DOUBLE_SOLENOID_REV_CHANNEL = 0;
+        public static final int COMPRESSOR_MODULE_ID = 0;
+    }
+
     public static final class OIConstants {
         public static final int ROBOT_CONTROLLER_PORT = 0;
     }

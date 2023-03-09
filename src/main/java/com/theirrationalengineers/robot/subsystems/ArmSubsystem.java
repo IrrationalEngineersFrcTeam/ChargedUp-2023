@@ -22,8 +22,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
         ArmConstants.S_VOLTS, ArmConstants.G_VOLTS, 
         ArmConstants.V_VOLT_SECOND_PER_RAD, ArmConstants.A_VOLT_SECOND_SQUARED_PER_RAD);
 
-    private boolean isIntakeLowered;
-
     public ArmSubsystem() {
         super(
             new ProfiledPIDController(
@@ -32,8 +30,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
                     ArmConstants.MAX_VELOCITY_RAD_PER_SECOND, 
                     ArmConstants.MAX_ACCELERATION_RAD_PER_SEC_SQUARED)), 
             0);
-
-        isIntakeLowered = false;
 
         motor.restoreFactoryDefaults();
         motor.setIdleMode(IdleMode.kCoast);
@@ -57,7 +53,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
       return (encoder.getPosition() * (2.0 * Math.PI / ArmConstants.GEARBOX_RATIO) + ArmConstants.OFFSET);
     }
 
-    public void positionArm(double goal) {
+    public void setPosition(double goal) {
         if ((goal <= ArmConstants.HIGH_GOAL) && (goal >= ArmConstants.LOW_GOAL)) {
             setGoal(goal);
             enable();
@@ -66,7 +62,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
         }
     }
 
-    public void raiseArm() {
+    public void raise() {
         double currentPosition = getMeasurement();
         
         if (currentPosition < (ArmConstants.HIGH_GOAL - ArmConstants.MOVE_ARM_DELTA)) {
@@ -75,7 +71,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
         }
     }
 
-    public void lowerArm() {
+    public void lower() {
         double currentPosition = getMeasurement();
 
         if (currentPosition > (ArmConstants.OFFSET + ArmConstants.MOVE_ARM_DELTA)) {
@@ -83,26 +79,4 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
             enable();
         }
     }
-
-    public void raiseIntake() {
-        isIntakeLowered = false;
-    }
-
-    public void lowerIntake() {
-        isIntakeLowered = true;
-    }
-
-    public void toggleIntakePosition() {
-        if (isIntakeLowered) {
-            raiseIntake();
-        } else {
-            lowerIntake();
-        }
-
-        isIntakeLowered = !isIntakeLowered;
-    }
-
-    public void grabGamePiece() {}
-
-    public void releaseGamePiece() {}
 }

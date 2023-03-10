@@ -55,10 +55,6 @@ public class RobotContainer {
       arm.setPosition(ArmConstants.HIGH_GOAL);
     }, arm));
 
-    // Toggle lower and raise intake
-    robotController.x().onTrue(Commands.runOnce(
-      intake::togglePosition, arm));
-
     // Grab game piece
     robotController.rightBumper().onTrue(Commands.runOnce(
       intake::grabGamePiece, arm));
@@ -82,6 +78,10 @@ public class RobotContainer {
 
   public DrivetrainSubsystem getDrivetrain() {
     return drivetrain;
+  }
+
+  public IntakeSubsystem getIntake() {
+    return intake;
   }
 
   public CommandXboxController getRobotController() {

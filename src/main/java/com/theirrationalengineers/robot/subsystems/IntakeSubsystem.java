@@ -9,20 +9,17 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
-    private final DoubleSolenoid doubleSolenoid = new DoubleSolenoid(
+    private final DoubleSolenoid doubleSolenoid;
+    private final Compressor compressor;
+
+    public IntakeSubsystem() {
+        doubleSolenoid = new DoubleSolenoid(
         PneumaticsModuleType.CTREPCM, 
         IntakeConstants.DOUBLE_SOLENOID_FWD_CHANNEL, 
         IntakeConstants.DOUBLE_SOLENOID_REV_CHANNEL);
 
-    private final Compressor compressor = new Compressor(
-        IntakeConstants.COMPRESSOR_MODULE_ID, PneumaticsModuleType.CTREPCM);
-
-    private boolean isLowered;
-
-    public IntakeSubsystem() {
-        isLowered = false;
-
-        compressor.enableDigital();
+        compressor = new Compressor(
+            IntakeConstants.COMPRESSOR_MODULE_ID, PneumaticsModuleType.CTREPCM);
     }
 
     @Override
@@ -31,29 +28,15 @@ public class IntakeSubsystem extends SubsystemBase {
     @Override
     public void simulationPeriodic() {}
 
-    public void raise() {
-        isLowered = false;
-    }
-
-    public void lower() {
-        isLowered = true;
-    }
-
-    public void togglePosition() {
-        if (isLowered) {
-            raise();
-        } else {
-            lower();
-        }
-
-        isLowered = !isLowered;
+    public void enableCompressor() {
+        compressor.enableDigital();
     }
 
     public void grabGamePiece() {
-        doubleSolenoid.set(Value.kForward);
+        doubleSolenoid.set(Value.kReverse);
     }
 
     public void releaseGamePiece() {
-        doubleSolenoid.set(Value.kReverse);
+        doubleSolenoid.set(Value.kForward);
     }
 }

@@ -25,11 +25,12 @@ public class Constants {
         public static final int FRONT_RIGHT_MOTOR_ID = 3;
         public static final int REAR_RIGHT_MOTOR_ID = 4;
         public static final double INITIAL_MAX_OUTPUT = 0.2;
+        public static final double SLEW_RATE_LIMIT = 0.5;
     }
 
     public static final class IntakeConstants {
-        public static final int DOUBLE_SOLENOID_FWD_CHANNEL = 7;
-        public static final int DOUBLE_SOLENOID_REV_CHANNEL = 0;
+        public static final int DOUBLE_SOLENOID_FWD_CHANNEL = 5;
+        public static final int DOUBLE_SOLENOID_REV_CHANNEL = 4;
         public static final int COMPRESSOR_MODULE_ID = 0;
     }
 

@@ -21,8 +21,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private final CANSparkMax rearRightMotor = new CANSparkMax(
         DrivetrainConstants.REAR_RIGHT_MOTOR_ID, MotorType.kBrushless);
 
-    private final DifferentialDrive differentialDrive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
-    private final SlewRateLimiter slewRateLimiter = new SlewRateLimiter(0.5);
+    private final DifferentialDrive differentialDrive = new DifferentialDrive(
+        frontLeftMotor, frontRightMotor);
+
+    private final SlewRateLimiter forwardFilter = new SlewRateLimiter(
+        DrivetrainConstants.SLEW_RATE_LIMIT);
+
+    private final SlewRateLimiter rotationFilter = new SlewRateLimiter(
+        DrivetrainConstants.SLEW_RATE_LIMIT);
+        
     private double maxOutput;
 
     public DrivetrainSubsystem() {
@@ -50,7 +57,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public void drive(double forward, double rotation) {
         differentialDrive.arcadeDrive(
-                slewRateLimiter.calculate(forward), slewRateLimiter.calculate(rotation));
+            forwardFilter.calculate(forward),
+            rotationFilter.calculate(rotation)
+        );
     }
 
     public void increaseMaxOutput() {

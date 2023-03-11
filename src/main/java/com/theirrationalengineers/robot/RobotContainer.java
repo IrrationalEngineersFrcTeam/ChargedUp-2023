@@ -56,11 +56,11 @@ public class RobotContainer {
 
     // Grab game piece
     robotController.rightBumper().onTrue(Commands.runOnce(
-      intake::grabGamePiece, arm));
+      intake::close, intake));
 
     // Release game piece
     robotController.leftBumper().onTrue(Commands.runOnce(
-      intake::releaseGamePiece, arm));
+      intake::open, intake));
   }
 
   private void configureDashboard() {
@@ -73,6 +73,10 @@ public class RobotContainer {
 
     //chooser.setDefaultOption("Autonomous Command", new AutonomousCommand());
     //SmartDashboard.putData("Auto Mode", chooser);
+  }
+
+  public ArmSubsystem getArm() {
+    return arm;
   }
 
   public DrivetrainSubsystem getDrivetrain() {

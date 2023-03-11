@@ -20,8 +20,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
         compressor = new Compressor(
             IntakeConstants.COMPRESSOR_MODULE_ID, PneumaticsModuleType.CTREPCM);
-
-        doubleSolenoid.set(Value.kOff); //competition change
     }
 
     @Override
@@ -30,15 +28,23 @@ public class IntakeSubsystem extends SubsystemBase {
     @Override
     public void simulationPeriodic() {}
 
+    public void disableSolenoids() {
+        doubleSolenoid.set(Value.kOff);
+    }
+
     public void enableCompressor() {
         compressor.enableDigital();
     }
 
-    public void grabGamePiece() {
+    public void close() {
         doubleSolenoid.set(Value.kReverse);
     }
 
-    public void releaseGamePiece() {
+    public void open() {
         doubleSolenoid.set(Value.kForward);
+    }
+
+    public boolean isOpen() {
+        return doubleSolenoid.get() == Value.kForward;
     }
 }

@@ -12,11 +12,11 @@ public class Constants {
         public static final double P = 4.0;
         public static final double POSITION_CONVERSION_FACTOR = 1.0;
         public static final double GEARBOX_RATIO = 100.0;
-        public static final double OFFSET = Math.toRadians(-90.0);
-        public static final double LOW_GOAL = Math.toRadians(-90.0);
+        public static final double OFFSET = Math.toRadians(-80.0);
+        public static final double LOW_GOAL = Math.toRadians(-60.0);
         public static final double MID_GOAL = Math.toRadians(0.0);
-        public static final double HIGH_GOAL = Math.toRadians(60.0);
-        public static final double MOVE_ARM_DELTA = Math.toRadians(15.0);
+        public static final double HIGH_GOAL = Math.toRadians(15.0);
+        public static final double MOVE_ARM_DELTA = Math.toRadians(30.0);
     }
 
     public static final class DrivetrainConstants {

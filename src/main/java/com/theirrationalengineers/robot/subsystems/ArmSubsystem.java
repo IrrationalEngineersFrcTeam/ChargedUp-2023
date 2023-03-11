@@ -44,7 +44,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
       SmartDashboard.putNumber("Motor output", output);
       SmartDashboard.putNumber("Motor feedforward", feedforward);
-      SmartDashboard.putNumber("Encoder position", encoder.getPosition());
+      SmartDashboard.putNumber("Encoder position", Math.toDegrees(getMeasurement()));
       SmartDashboard.putNumber("Encoder velocity", encoder.getVelocity());
       motor.setVoltage(output + feedforward);
     }

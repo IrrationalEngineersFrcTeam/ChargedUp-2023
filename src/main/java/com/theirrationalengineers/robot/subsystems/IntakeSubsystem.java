@@ -20,6 +20,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
         compressor = new Compressor(
             IntakeConstants.COMPRESSOR_MODULE_ID, PneumaticsModuleType.CTREPCM);
+
+        doubleSolenoid.set(Value.kOff); //competition change
     }
 
     @Override

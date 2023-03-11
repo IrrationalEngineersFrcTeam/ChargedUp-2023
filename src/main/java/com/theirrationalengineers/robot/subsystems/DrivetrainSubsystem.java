@@ -56,10 +56,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public void simulationPeriodic() {}
 
     public void drive(double forward, double rotation) {
-        differentialDrive.arcadeDrive(
-            forwardFilter.calculate(forward),
-            rotationFilter.calculate(rotation)
-        );
+        differentialDrive.arcadeDrive(forward, rotation);
     }
 
     public void increaseMaxOutput() {

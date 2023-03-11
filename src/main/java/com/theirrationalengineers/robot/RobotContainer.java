@@ -1,6 +1,5 @@
 package com.theirrationalengineers.robot;
 
-import com.theirrationalengineers.robot.Constants.ArmConstants;
 import com.theirrationalengineers.robot.Constants.OIConstants;
 import com.theirrationalengineers.robot.subsystems.ArmSubsystem;
 import com.theirrationalengineers.robot.subsystems.DrivetrainSubsystem;
@@ -41,19 +40,19 @@ public class RobotContainer {
       arm::lower, arm));
     
     // Position arm at low node
-    robotController.a().onTrue(Commands.runOnce(() -> {
-      arm.setPosition(ArmConstants.LOW_GOAL);
-    }, arm));
+    //robotController.a().onTrue(Commands.runOnce(() -> {
+      //arm.setPosition(ArmConstants.LOW_GOAL);
+    //}, arm));
 
     // Position arm at mid node
-    robotController.b().onTrue(Commands.runOnce(() -> {
-      arm.setPosition(ArmConstants.MID_GOAL);
-    }, arm));
+    //robotController.b().onTrue(Commands.runOnce(() -> {
+      //arm.setPosition(ArmConstants.MID_GOAL);
+    //}, arm));
 
     // Position arm at high node
-    robotController.y().onTrue(Commands.runOnce(() -> {
-      arm.setPosition(ArmConstants.HIGH_GOAL);
-    }, arm));
+    //robotController.y().onTrue(Commands.runOnce(() -> {
+      //arm.setPosition(ArmConstants.HIGH_GOAL);
+    //}, arm));
 
     // Grab game piece
     robotController.rightBumper().onTrue(Commands.runOnce(

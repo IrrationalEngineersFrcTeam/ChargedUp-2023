@@ -32,6 +32,7 @@ public class RobotContainer {
     robotController.povLeft().onTrue(Commands.runOnce(
       drivetrain::decreaseMaxOutput, drivetrain));
 
+      /*
     // Raise arm
     robotController.povUp().onTrue(Commands.runOnce(
       arm::raise, arm));
@@ -40,9 +41,11 @@ public class RobotContainer {
     robotController.povDown().onTrue(Commands.runOnce(
       arm::lower, arm));
     
+      
     // Position arm at low node
     robotController.a().onTrue(Commands.runOnce(() -> {
       arm.setPosition(ArmConstants.LOW_GOAL);
+      System.out.println("A button pressed. Goal: " + ArmConstants.LOW_GOAL);
     }, arm));
 
     // Position arm at mid node
@@ -55,6 +58,8 @@ public class RobotContainer {
       arm.setPosition(ArmConstants.HIGH_GOAL);
     }, arm));
 
+    
+
     // Grab game piece
     robotController.rightBumper().onTrue(Commands.runOnce(
       intake::close, intake));
@@ -62,6 +67,7 @@ public class RobotContainer {
     // Release game piece
     robotController.leftBumper().onTrue(Commands.runOnce(
       intake::open, intake));
+      */
   }
 
   private void configureDashboard() {

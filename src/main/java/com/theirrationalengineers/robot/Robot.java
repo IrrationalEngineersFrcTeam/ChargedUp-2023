@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledInit() {
         intake.close();
-        arm.setPosition(ArmConstants.LOW_GOAL);
+        //arm.setPosition(ArmConstants.LOW_GOAL);
     }
 
     @Override

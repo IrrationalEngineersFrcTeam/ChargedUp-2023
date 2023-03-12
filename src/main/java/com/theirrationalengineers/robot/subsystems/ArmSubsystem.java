@@ -35,7 +35,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
         motor.setInverted(true); //competition change
         motor.setIdleMode(IdleMode.kBrake);
         encoder.setPositionConversionFactor(ArmConstants.POSITION_CONVERSION_FACTOR);
-        setGoal(ArmConstants.OFFSET);
+       //setGoal(ArmConstants.OFFSET);
     }
 
     @Override

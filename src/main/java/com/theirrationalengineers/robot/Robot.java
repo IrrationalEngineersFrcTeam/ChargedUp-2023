@@ -18,12 +18,14 @@ public class Robot extends TimedRobot {
     private IntakeSubsystem intake;
     private CommandXboxController robotController;
     private Command autonomousCommand;
+    private boolean allowTurnInPlace;
 
     @Override
     public void robotInit() {
         robotContainer = new RobotContainer();
         arm = robotContainer.getArm();
         drivetrain = robotContainer.getDrivetrain();
+        allowTurnInPlace = false;
         intake = robotContainer.getIntake();
         robotController = robotContainer.getRobotController();
 
@@ -75,7 +77,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-        drivetrain.drive(-robotController.getLeftY(), -robotController.getRightX());
+        drivetrain.curvatureDrive(-robotController.getLeftY(), -robotController.getRightX(), allowTurnInPlace);
     }
 
     @Override
@@ -87,4 +89,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testPeriodic() {}
+
+    @Override
+    public void simulationPeriodic() {
+        drivetrain.curvatureDrive(-robotController.getLeftY(), -robotController.getRightX(), allowTurnInPlace);
+    }
 }

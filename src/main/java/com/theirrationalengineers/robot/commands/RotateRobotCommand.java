@@ -46,12 +46,12 @@ public class RotateRobotCommand extends CommandBase {
 
     @Override
     public void execute() {
-        drivetrainSubsystem.drive(0, rotationSpeed);
+        drivetrainSubsystem.curvatureDrive(0, rotationSpeed, true);
     }
 
     @Override
     public void end(boolean interrupted) {
-        drivetrainSubsystem.drive(0, 0);
+        drivetrainSubsystem.curvatureDrive(0, 0, true);
     }
 
     @Override

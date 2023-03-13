@@ -6,6 +6,7 @@ import com.theirrationalengineers.robot.Constants.DrivetrainConstants;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DrivetrainSubsystem extends SubsystemBase {
@@ -55,8 +56,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     @Override
     public void simulationPeriodic() {}
 
-    public void drive(double forward, double rotation) {
-        differentialDrive.arcadeDrive(forward, rotation);
+    public void curvatureDrive (double forward, double rotation, boolean allowTurnInPlace){
+        SmartDashboard.putNumber("forward", forward);
+        SmartDashboard.putNumber("rotation", rotation);
+        
+        differentialDrive.curvatureDrive(forward, rotation, allowTurnInPlace);
     }
 
     public void increaseMaxOutput() {

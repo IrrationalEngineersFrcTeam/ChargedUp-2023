@@ -3,6 +3,7 @@ package com.theirrationalengineers.robot;
 public class Constants {
     public static final class ArmConstants {
         public static final int MOTOR_ID = 8;
+        public static final int CURRENT_LIMIT = 40;
         public static final double S_VOLTS = 0.0;
         public static final double G_VOLTS = 0.0;
         public static final double V_VOLT_SECOND_PER_RAD = 0.25;
@@ -24,9 +25,9 @@ public class Constants {
         public static final int LEFT_FOLLOWER_MOTOR_ID = 2;
         public static final int RIGHT_LEADER_MOTOR_ID = 3;
         public static final int RIGHT_FOLLOWER_MOTOR_ID = 4;
-        public static final double INITIAL_MAX_OUTPUT = 0.5;
-        public static final double SLEW_RATE_LIMIT = 0.5;
-        public static final double DRIVE_DISTANCE_P = 1.0;
+        public static final int CURRENT_LIMIT = 40;
+        public static final double INITIAL_MAX_OUTPUT = 0.2;
+        public static final double P = 1.0;
         public static final double GEARBOX_RATIO = 10.7;
         public static final double WHEEL_CIRCUMFERENCE_INCHES = 6.0 * Math.PI;
     }
@@ -39,5 +40,12 @@ public class Constants {
 
     public static final class OIConstants {
         public static final int ROBOT_CONTROLLER_PORT = 0;
+        public static final int LEFT_JOYSTICK_PORT = 1;
+        public static final int RIGHT_JOYSTICK_PORT = 2;
+    }
+
+    public static final class DriveMode {
+        public static final String ARCADE_DRIVE = "Arcade Drive";
+        public static final String TANK_DRIVE = "Tank Drive";
     }
 }

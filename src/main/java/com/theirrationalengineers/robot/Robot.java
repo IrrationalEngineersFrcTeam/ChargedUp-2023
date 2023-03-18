@@ -1,11 +1,13 @@
 package com.theirrationalengineers.robot;
 
 import com.theirrationalengineers.robot.Constants.ArmConstants;
+import com.theirrationalengineers.robot.Constants.DriveMode;
 import com.theirrationalengineers.robot.subsystems.ArmSubsystem;
 import com.theirrationalengineers.robot.subsystems.DrivetrainSubsystem;
 import com.theirrationalengineers.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -17,7 +19,10 @@ public class Robot extends TimedRobot {
     private DrivetrainSubsystem drivetrain;
     private IntakeSubsystem intake;
     private CommandXboxController robotController;
+    private Joystick leftJoystick;
+    private Joystick rightJoystick;
     private Command autonomousCommand;
+    private String driveMode;
 
     @Override
     public void robotInit() {
@@ -26,6 +31,8 @@ public class Robot extends TimedRobot {
         drivetrain = robotContainer.getDrivetrain();
         intake = robotContainer.getIntake();
         robotController = robotContainer.getRobotController();
+        leftJoystick = robotContainer.getLeftJoystick();
+        rightJoystick = robotContainer.getRightJoystick();
 
         //intake.close();
         //intake.enableCompressor();
@@ -52,9 +59,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        //intake.close();
-
         autonomousCommand = robotContainer.getAutonomousCommand();
+
+        //intake.close();
+        drivetrain.resetEncoderPosition();
 
         if (autonomousCommand != null) {
             autonomousCommand.schedule();
@@ -66,23 +74,31 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        //intake.close();
+        driveMode = robotContainer.getDriveMode();
 
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
         }
+
+        //intake.close();
     }
 
     @Override
     public void teleopPeriodic() {
-        drivetrain.arcadeDrive(-robotController.getLeftY(), -robotController.getRightX());
+        switch (driveMode) {
+            case DriveMode.ARCADE_DRIVE:
+            drivetrain.arcadeDrive(-robotController.getLeftY(), -robotController.getRightX());
+            break;
+            case DriveMode.TANK_DRIVE:
+            drivetrain.tankDrive(-leftJoystick.getY(), -rightJoystick.getY());
+            break;
+        }
     }
 
     @Override
     public void testInit() {
-        //intake.close();
-
         CommandScheduler.getInstance().cancelAll();
+        //intake.close();
     }
 
     @Override

@@ -32,6 +32,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
             0);
 
         motor.restoreFactoryDefaults();
+        motor.setSmartCurrentLimit(ArmConstants.CURRENT_LIMIT);
         motor.setInverted(true); //competition change
         motor.setIdleMode(IdleMode.kBrake);
         encoder.setPositionConversionFactor(ArmConstants.POSITION_CONVERSION_FACTOR);

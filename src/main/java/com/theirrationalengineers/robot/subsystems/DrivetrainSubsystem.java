@@ -1,7 +1,6 @@
 package com.theirrationalengineers.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.theirrationalengineers.robot.Constants.DrivetrainConstants;
 
@@ -24,9 +23,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     private final DifferentialDrive differentialDrive = new DifferentialDrive(
         leftLeaderMotor, rightLeaderMotor);
-    
-    private final RelativeEncoder encoder = leftLeaderMotor.getEncoder();
-        
+
     private double maxOutput;
 
     public DrivetrainSubsystem() {
@@ -37,11 +34,18 @@ public class DrivetrainSubsystem extends SubsystemBase {
         rightLeaderMotor.restoreFactoryDefaults();
         rightFollowerMotor.restoreFactoryDefaults();
 
+        leftLeaderMotor.setSmartCurrentLimit(DrivetrainConstants.CURRENT_LIMIT);
+        leftFollowerMotor.setSmartCurrentLimit(DrivetrainConstants.CURRENT_LIMIT);
+        rightLeaderMotor.setSmartCurrentLimit(DrivetrainConstants.CURRENT_LIMIT);
+        rightFollowerMotor.setSmartCurrentLimit(DrivetrainConstants.CURRENT_LIMIT);
+
         leftLeaderMotor.setInverted(false);
         rightLeaderMotor.setInverted(true);
 
         leftFollowerMotor.follow(leftLeaderMotor);
         rightFollowerMotor.follow(rightLeaderMotor);
+
+        leftLeaderMotor.getEncoder().setPosition(0.0);
 
         differentialDrive.setMaxOutput(DrivetrainConstants.INITIAL_MAX_OUTPUT);
     }
@@ -54,12 +58,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public void arcadeDrive(double forward, double rotation) {
         differentialDrive.arcadeDrive(forward, rotation);
-        SmartDashboard.putNumber("forward", forward);
-        SmartDashboard.putNumber("rotation", rotation);
+        SmartDashboard.putNumber("encoder", getEncoderPosition());
+        SmartDashboard.putNumber("output", forward);
     }
 
     public void tankDrive(double left, double right) {
         differentialDrive.tankDrive(left, right);
+        SmartDashboard.putNumber("left", left);
+        SmartDashboard.putNumber("right", right);
     }
 
     public void increaseMaxOutput() {
@@ -81,6 +87,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
     
     public double getEncoderPosition() {
-        return encoder.getPosition();
+        return leftLeaderMotor.getEncoder().getPosition();
+    }
+
+    public void resetEncoderPosition() {
+        leftLeaderMotor.getEncoder().setPosition(0.0);
     }
 }

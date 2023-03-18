@@ -2,11 +2,13 @@ package com.theirrationalengineers.robot;
 
 import com.theirrationalengineers.robot.Constants.ArmConstants;
 import com.theirrationalengineers.robot.Constants.OIConstants;
+import com.theirrationalengineers.robot.commands.DriveDistanceCommand;
 import com.theirrationalengineers.robot.subsystems.ArmSubsystem;
 import com.theirrationalengineers.robot.subsystems.DrivetrainSubsystem;
 import com.theirrationalengineers.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -16,9 +18,11 @@ public class RobotContainer {
   private final DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
   private final CommandXboxController robotController = new CommandXboxController(OIConstants.ROBOT_CONTROLLER_PORT);
-  private final SendableChooser<Command> chooser = new SendableChooser<>();
+  private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   public RobotContainer() {
+    autoChooser.addOption("Drive distance", new DriveDistanceCommand(6, drivetrain));
+
     configureButtonBindings();
     configureDashboard();
   }
@@ -40,7 +44,6 @@ public class RobotContainer {
     // Lower arm
     robotController.povDown().onTrue(Commands.runOnce(
       arm::lower, arm));
-    
       
     // Position arm at low node
     robotController.a().onTrue(Commands.runOnce(() -> {
@@ -58,8 +61,6 @@ public class RobotContainer {
       arm.setPosition(ArmConstants.HIGH_GOAL);
     }, arm));
 
-    
-
     // Grab game piece
     robotController.rightBumper().onTrue(Commands.runOnce(
       intake::close, intake));
@@ -71,15 +72,7 @@ public class RobotContainer {
   }
 
   private void configureDashboard() {
-    // Needs reworking - should be replaced with Shuffleboard
-    //ShuffleboardTab rotateRobotTab = Shuffleboard.getTab("Rotate robot");
-    //GenericEntry rotationDegreesEntry = rotateRobotTab.add("Rotation degrees", 1).getEntry();
-
-    //SmartDashboard.putData("Rotate robot", new RotateRobotCommand(drivetrainSubsystem, rotationDegreesEntry.getDouble(0)));
-    //SmartDashboard.putNumber("Rotation degrees", rotationDegreesEntry.getDouble(0));
-
-    //chooser.setDefaultOption("Autonomous Command", new AutonomousCommand());
-    //SmartDashboard.putData("Auto Mode", chooser);
+    SmartDashboard.putData(autoChooser);
   }
 
   public ArmSubsystem getArm() {
@@ -99,6 +92,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return chooser.getSelected();
+    return autoChooser.getSelected();
   }
 }

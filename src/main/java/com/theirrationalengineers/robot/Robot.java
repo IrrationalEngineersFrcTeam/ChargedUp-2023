@@ -27,8 +27,8 @@ public class Robot extends TimedRobot {
         intake = robotContainer.getIntake();
         robotController = robotContainer.getRobotController();
 
-        intake.disableSolenoids();
-        intake.enableCompressor();
+        //intake.close();
+        //intake.enableCompressor();
         CameraServer.startAutomaticCapture(0);
     }
 
@@ -39,20 +39,20 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
-        intake.close();
+        //intake.close();
         //arm.setPosition(ArmConstants.LOW_GOAL);
     }
 
     @Override
     public void disabledPeriodic() {
-        if (intake.isOpen()) {
-            intake.close();
-        }
+        //if (intake.isOpen()) {
+            //intake.close();
+        //}
     }
 
     @Override
     public void autonomousInit() {
-        intake.disableSolenoids();
+        //intake.close();
 
         autonomousCommand = robotContainer.getAutonomousCommand();
 
@@ -66,7 +66,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        intake.disableSolenoids();
+        //intake.close();
 
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
@@ -75,12 +75,12 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-        drivetrain.drive(-robotController.getLeftY(), -robotController.getRightX());
+        drivetrain.arcadeDrive(-robotController.getLeftY(), -robotController.getRightX());
     }
 
     @Override
     public void testInit() {
-        intake.disableSolenoids();
+        //intake.close();
 
         CommandScheduler.getInstance().cancelAll();
     }

@@ -28,20 +28,16 @@ public class IntakeSubsystem extends SubsystemBase {
     @Override
     public void simulationPeriodic() {}
 
-    public void disableSolenoids() {
-        doubleSolenoid.set(Value.kOff);
-    }
-
     public void enableCompressor() {
         compressor.enableDigital();
     }
 
-    public void close() {
-        doubleSolenoid.set(Value.kReverse);
-    }
-
     public void open() {
         doubleSolenoid.set(Value.kForward);
+    }
+
+    public void close() {
+        doubleSolenoid.set(Value.kReverse);
     }
 
     public boolean isOpen() {

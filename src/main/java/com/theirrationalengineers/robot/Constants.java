@@ -20,12 +20,15 @@ public class Constants {
     }
 
     public static final class DrivetrainConstants {
-        public static final int FRONT_LEFT_MOTOR_ID = 1;
-        public static final int REAR_LEFT_MOTOR_ID = 2;
-        public static final int FRONT_RIGHT_MOTOR_ID = 3;
-        public static final int REAR_RIGHT_MOTOR_ID = 4;
+        public static final int LEFT_LEADER_MOTOR_ID = 1;
+        public static final int LEFT_FOLLOWER_MOTOR_ID = 2;
+        public static final int RIGHT_LEADER_MOTOR_ID = 3;
+        public static final int RIGHT_FOLLOWER_MOTOR_ID = 4;
         public static final double INITIAL_MAX_OUTPUT = 0.5;
         public static final double SLEW_RATE_LIMIT = 0.5;
+        public static final double DRIVE_DISTANCE_P = 1.0;
+        public static final double GEARBOX_RATIO = 10.7;
+        public static final double WHEEL_CIRCUMFERENCE_INCHES = 6.0 * Math.PI;
     }
 
     public static final class IntakeConstants {

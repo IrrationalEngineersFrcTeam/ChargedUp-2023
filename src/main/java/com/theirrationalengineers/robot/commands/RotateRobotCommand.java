@@ -31,12 +31,12 @@ public class RotateRobotCommand extends CommandBase {
         encoderDistancePerPulse = 2.0 * Math.PI / encoderCountsPerRev;
         encoderCountsToRotate = rotationRadians / encoderDistancePerPulse * 145 / 180;
         initialEncoderPos = 0;
-        drivetrainSubsystem.getFrontLeftMotor().getEncoder().setPosition(0);
+        drivetrainSubsystem.getLeftLeaderMotor().getEncoder().setPosition(0);
     }
 
     @Override
     public void initialize() {
-        drivetrainSubsystem.getFrontLeftMotor().getEncoder().setPosition(0);
+        drivetrainSubsystem.getLeftLeaderMotor().getEncoder().setPosition(0);
         System.out.println("RotateRobotCommand started");
         System.out.println("rotation degrees: " + rotationDegrees);
         System.out.println("initial encoder position: " + initialEncoderPos);
@@ -46,17 +46,17 @@ public class RotateRobotCommand extends CommandBase {
 
     @Override
     public void execute() {
-        drivetrainSubsystem.drive(0, rotationSpeed);
+        drivetrainSubsystem.arcadeDrive(0, rotationSpeed);
     }
 
     @Override
     public void end(boolean interrupted) {
-        drivetrainSubsystem.drive(0, 0);
+        drivetrainSubsystem.arcadeDrive(0, 0);
     }
 
     @Override
     public boolean isFinished() {
-        currentEncoderPos = drivetrainSubsystem.getFrontLeftMotor().getEncoder().getPosition();
+        currentEncoderPos = drivetrainSubsystem.getLeftLeaderMotor().getEncoder().getPosition();
 
         System.out.println("current encoder position: " + currentEncoderPos);
 

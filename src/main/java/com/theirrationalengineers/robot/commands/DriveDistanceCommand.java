@@ -15,8 +15,6 @@ public class DriveDistanceCommand extends PIDCommand {
             output -> drivetrain.arcadeDrive(output * DrivetrainConstants.INITIAL_MAX_OUTPUT, 0.0),
             drivetrain
         );
-
-        drivetrain.resetEncoderPosition();
     }
 
     @Override

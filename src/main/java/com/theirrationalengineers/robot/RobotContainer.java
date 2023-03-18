@@ -28,10 +28,18 @@ public class RobotContainer {
   private final SendableChooser<String> driveChooser = new SendableChooser<>();
 
   public RobotContainer() {
+    autoChooser.addOption("Drive Distance", new DriveDistanceCommand(-12.0, drivetrain));
+    autoChooser.addOption("Turn Angle", new TurnAngleCommand(90.0, drivetrain));
+
+    driveChooser.setDefaultOption("Arcade Drive", DriveMode.ARCADE_DRIVE);
+    driveChooser.addOption("Arcade Drive", DriveMode.ARCADE_DRIVE);
+    driveChooser.addOption("Tank Drive", DriveMode.TANK_DRIVE);
+
+    SmartDashboard.putData(autoChooser);
+    SmartDashboard.putData(driveChooser);
+
     configureXboxBindings();
     configureJoystickBindings();
-    configureChoosers();
-    configureDashboard();
   }
 
   private void configureXboxBindings() {
@@ -95,6 +103,7 @@ public class RobotContainer {
     // Decrease max output of drivetrain
     left3.onTrue(Commands.runOnce(drivetrain::decreaseMaxOutput, drivetrain));
       
+    /*
     // Raise arm
     right4.onTrue(Commands.runOnce(arm::raise, arm));
 
@@ -121,6 +130,7 @@ public class RobotContainer {
 
     // Release game piece
     left1.onTrue(Commands.runOnce(intake::open, intake));
+    */
   }
 
   private void configureChoosers() {
@@ -130,9 +140,7 @@ public class RobotContainer {
     driveChooser.setDefaultOption("Arcade Drive", DriveMode.ARCADE_DRIVE);
     driveChooser.addOption("Arcade Drive", DriveMode.ARCADE_DRIVE);
     driveChooser.addOption("Tank Drive", DriveMode.TANK_DRIVE);
-  }
 
-  private void configureDashboard() {
     SmartDashboard.putData(autoChooser);
     SmartDashboard.putData(driveChooser);
   }

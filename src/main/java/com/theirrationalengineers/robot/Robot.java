@@ -63,6 +63,7 @@ public class Robot extends TimedRobot {
 
         //intake.close();
         drivetrain.resetEncoderPosition();
+        intake.disableCompressor(); //for testing
 
         if (autonomousCommand != null) {
             autonomousCommand.schedule();

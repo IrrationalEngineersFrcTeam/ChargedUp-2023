@@ -59,7 +59,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public void arcadeDrive(double forward, double rotation) {
         differentialDrive.arcadeDrive(forward, rotation);
         SmartDashboard.putNumber("encoder", getEncoderPosition());
-        SmartDashboard.putNumber("output", forward);
+        SmartDashboard.putNumber("forward", forward);
+        SmartDashboard.putNumber("rotation", rotation);
     }
 
     public void tankDrive(double left, double right) {
@@ -88,6 +89,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
     
     public double getEncoderPosition() {
         return leftLeaderMotor.getEncoder().getPosition();
+    }
+
+    public double getEncoderPositionRad() {
+        return (leftLeaderMotor.getEncoder().getPosition() * 2.0 * Math.PI / DrivetrainConstants.GEARBOX_RATIO);
     }
 
     public void resetEncoderPosition() {

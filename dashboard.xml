@@ -1,0 +1,12 @@
+<xml version="1.0">
+<dashboard>
+	<widget field="SendableChooser[1]" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="0" y="112"/>
+	</widget>
+	<widget field="SendableChooser[0]" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="0" y="32"/>
+	</widget>
+</dashboard>
+<live-window>
+</live-window>
+</xml>

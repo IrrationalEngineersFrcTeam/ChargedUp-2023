@@ -10,13 +10,19 @@ public class TurnAngleCommand extends PIDCommand {
     public TurnAngleCommand(double angle, DrivetrainSubsystem drivetrain)  {
         super(
             new PIDController(DrivetrainConstants.P, 0.0, 0.0),
-            drivetrain::getEncoderPosition,
+            drivetrain::getEncoderPositionRad,
             angle * (2.0 * Math.PI / DrivetrainConstants.GEARBOX_RATIO) / DrivetrainConstants.WHEEL_CIRCUMFERENCE_INCHES,
             output -> drivetrain.arcadeDrive(0.0, output * DrivetrainConstants.INITIAL_MAX_OUTPUT),
             drivetrain
         );
 
         drivetrain.resetEncoderPosition();
+
+        // Set the controller to be continuous (because it is an angle controller)
+        getController().enableContinuousInput(Math.toRadians(-180), Math.toRadians(180));
+        // Set the controller tolerance - the delta tolerance ensures the robot is stationary at the
+        // setpoint before it is considered as having reached the reference
+        getController().setTolerance(Math.toRadians(5), 10);
     }
 
     @Override

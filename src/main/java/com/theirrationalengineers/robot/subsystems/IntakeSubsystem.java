@@ -32,6 +32,10 @@ public class IntakeSubsystem extends SubsystemBase {
         compressor.enableDigital();
     }
 
+    public void disableCompressor() {
+        compressor.disable();
+    }
+
     public void open() {
         doubleSolenoid.set(Value.kForward);
     }

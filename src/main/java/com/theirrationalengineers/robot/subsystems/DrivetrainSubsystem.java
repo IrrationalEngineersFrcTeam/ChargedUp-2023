@@ -73,6 +73,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         if (maxOutput < 1.0) {
             maxOutput += 0.05;
             differentialDrive.setMaxOutput(maxOutput);
+            SmartDashboard.putString("Max drive speed", maxOutput * 100 + "%");
         }
     }
 
@@ -80,6 +81,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         if (maxOutput > 0.1) {
             maxOutput -= 0.05;
             differentialDrive.setMaxOutput(maxOutput);
+            SmartDashboard.putString("Max drive speed", maxOutput * 100 + "%");
         }
     }
 

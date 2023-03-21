@@ -30,6 +30,7 @@ public class Constants {
         public static final double P = 1.0;
         public static final double GEARBOX_RATIO = 10.7;
         public static final double WHEEL_CIRCUMFERENCE_INCHES = 6.0 * Math.PI;
+        public static final double LEAVE_COMMUNITY_INCHES = 204.0;
     }
 
     public static final class IntakeConstants {

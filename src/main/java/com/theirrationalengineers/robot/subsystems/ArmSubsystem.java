@@ -43,10 +43,10 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public void useOutput(double output, TrapezoidProfile.State setpoint) {
       double feedforward = m_feedforward.calculate(setpoint.position, setpoint.velocity);
 
-      SmartDashboard.putNumber("Motor output", output);
-      SmartDashboard.putNumber("Motor feedforward", feedforward);
-      SmartDashboard.putNumber("Encoder position", Math.toDegrees(getMeasurement()));
-      SmartDashboard.putNumber("Encoder velocity", encoder.getVelocity());
+      SmartDashboard.putNumber("Arm motor output", output);
+      SmartDashboard.putNumber("Arm motor feedforward", feedforward);
+      SmartDashboard.putNumber("Arm encoder position", Math.toDegrees(getMeasurement()));
+      SmartDashboard.putNumber("Arm encoder velocity", encoder.getVelocity());
       motor.setVoltage(output + feedforward);
     }
 
@@ -55,10 +55,15 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
       return (encoder.getPosition() * (2.0 * Math.PI / ArmConstants.GEARBOX_RATIO) + ArmConstants.OFFSET);
     }
 
+    public boolean atSetpoint() {
+        return this.atSetpoint();
+    }
+
     public void setPosition(double goal) {
         if ((goal <= ArmConstants.HIGH_GOAL) && (goal >= ArmConstants.LOW_GOAL)) {
             setGoal(goal);
             enable();
+            SmartDashboard.putNumber("Arm goal", goal);
         } else {
             System.out.println("Arm went out of bounds! (goal: " + goal + ")");
         }

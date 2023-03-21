@@ -4,6 +4,7 @@ import com.theirrationalengineers.robot.Constants.ArmConstants;
 import com.theirrationalengineers.robot.Constants.DriveMode;
 import com.theirrationalengineers.robot.Constants.DrivetrainConstants;
 import com.theirrationalengineers.robot.Constants.OIConstants;
+import com.theirrationalengineers.robot.commands.AutoScoreCommand;
 import com.theirrationalengineers.robot.commands.DriveDistanceCommand;
 import com.theirrationalengineers.robot.commands.TurnAngleCommand;
 import com.theirrationalengineers.robot.subsystems.ArmSubsystem;
@@ -29,8 +30,10 @@ public class RobotContainer {
   private final SendableChooser<String> driveChooser = new SendableChooser<>();
 
   public RobotContainer() {
-    autoChooser.addOption("Drive Distance", new DriveDistanceCommand(-12.0, drivetrain));
-    autoChooser.addOption("Turn Angle", new TurnAngleCommand(90.0, drivetrain));
+    autoChooser.setDefaultOption("Score + Leave Community", new AutoScoreCommand(arm, drivetrain, intake));
+    autoChooser.addOption("Score + Leave Community", new AutoScoreCommand(arm, drivetrain, intake));
+    autoChooser.addOption("Drive Distance (-12in)", new DriveDistanceCommand(-12.0, drivetrain));
+    autoChooser.addOption("Turn Angle (90deg)", new TurnAngleCommand(90.0, drivetrain));
 
     driveChooser.setDefaultOption("Arcade Drive", DriveMode.ARCADE_DRIVE);
     driveChooser.addOption("Arcade Drive", DriveMode.ARCADE_DRIVE);
@@ -38,6 +41,10 @@ public class RobotContainer {
 
     SmartDashboard.putData(autoChooser);
     SmartDashboard.putData(driveChooser);
+    SmartDashboard.putData("Raise arm", Commands.runOnce(arm::raise, arm));
+    SmartDashboard.putData("Lower arm", Commands.runOnce(arm::lower, arm));
+    SmartDashboard.putString("Max drive speed", DrivetrainConstants.INITIAL_MAX_OUTPUT * 100 + "%");
+
 
     configureXboxBindings();
     configureJoystickBindings();
@@ -52,7 +59,8 @@ public class RobotContainer {
     robotController.povLeft().onTrue(Commands.runOnce(
       drivetrain::decreaseMaxOutput, drivetrain));
 
-      /*
+    /*
+
     // Raise arm
     robotController.povUp().onTrue(Commands.runOnce(
       arm::raise, arm));

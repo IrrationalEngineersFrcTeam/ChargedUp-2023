@@ -33,10 +33,9 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
         motor.restoreFactoryDefaults();
         motor.setSmartCurrentLimit(ArmConstants.CURRENT_LIMIT);
-        motor.setInverted(true); //competition change
         motor.setIdleMode(IdleMode.kBrake);
         encoder.setPositionConversionFactor(ArmConstants.POSITION_CONVERSION_FACTOR);
-       //setGoal(ArmConstants.OFFSET);
+        setGoal(ArmConstants.OFFSET);
     }
 
     @Override
@@ -45,7 +44,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
       SmartDashboard.putNumber("Arm motor output", output);
       SmartDashboard.putNumber("Arm motor feedforward", feedforward);
-      SmartDashboard.putNumber("Arm encoder position", Math.toDegrees(getMeasurement()));
       SmartDashboard.putNumber("Arm encoder velocity", encoder.getVelocity());
       motor.setVoltage(output + feedforward);
     }

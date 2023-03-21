@@ -7,14 +7,13 @@ import com.theirrationalengineers.robot.subsystems.DrivetrainSubsystem;
 import com.theirrationalengineers.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class AutoScoreCommand extends SequentialCommandGroup {
     public AutoScoreCommand(ArmSubsystem arm, DrivetrainSubsystem drivetrain, IntakeSubsystem intake) {
         addCommands(
             new MoveArmCommand(ArmConstants.LOW_GOAL, arm),
-            new InstantCommand(intake::open, intake),
+            Commands.runOnce(intake::open, intake),
             Commands.waitSeconds(3.0),
             new MoveArmCommand(ArmConstants.OFFSET, arm),
             new DriveDistanceCommand(-DrivetrainConstants.LEAVE_COMMUNITY_INCHES, drivetrain)

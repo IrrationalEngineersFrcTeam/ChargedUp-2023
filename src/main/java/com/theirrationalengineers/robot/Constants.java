@@ -8,14 +8,14 @@ public class Constants {
         public static final double G_VOLTS = 0.0;
         public static final double V_VOLT_SECOND_PER_RAD = 0.25;
         public static final double A_VOLT_SECOND_SQUARED_PER_RAD = 0.1;
-        public static final double MAX_VELOCITY_RAD_PER_SECOND = 3.0; //used to be 3.0 - comp change
-        public static final double MAX_ACCELERATION_RAD_PER_SEC_SQUARED = 10.0; //used to be 10.0 - comp change
+        public static final double MAX_VELOCITY_RAD_PER_SECOND = 1.5; //used to be 3.0 - comp change
+        public static final double MAX_ACCELERATION_RAD_PER_SEC_SQUARED = 5.0; //used to be 10.0 - comp change
         public static final double P = 4.0;
         public static final double POSITION_CONVERSION_FACTOR = 1.0;
         public static final double GEARBOX_RATIO = 100.0;
         public static final double OFFSET = Math.toRadians(103.0);
         public static final double LOW_GOAL = Math.toRadians(30.0);
-        public static final double MID_GOAL = Math.toRadians(50.0);
+        public static final double MID_GOAL = Math.toRadians(60.0);
         public static final double HIGH_GOAL = Math.toRadians(90.0);
         public static final double MOVE_ARM_DELTA = Math.toRadians(20.0);
     }
@@ -30,7 +30,7 @@ public class Constants {
         public static final double P = 1.0;
         public static final double GEARBOX_RATIO = 10.7;
         public static final double WHEEL_CIRCUMFERENCE_INCHES = 6.0 * Math.PI;
-        public static final double LEAVE_COMMUNITY_INCHES = 204.0;
+        public static final double LEAVE_COMMUNITY_INCHES = 12.0; //204.0 old
     }
 
     public static final class IntakeConstants {

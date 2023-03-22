@@ -9,9 +9,11 @@ import com.theirrationalengineers.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class Robot extends TimedRobot {
@@ -35,7 +37,7 @@ public class Robot extends TimedRobot {
         leftJoystick = robotContainer.getLeftJoystick();
         rightJoystick = robotContainer.getRightJoystick();
 
-        //intake.close();
+        intake.set(Value.kOff);
         //intake.enableCompressor();
         CameraServer.startAutomaticCapture(0);
     }
@@ -48,8 +50,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
-        //intake.close();
-        //arm.setPosition(ArmConstants.LOW_GOAL);
+        intake.set(Value.kOff);
+        //Commands.waitSeconds(1.0);
+        //arm.setPosition(ArmConstants.OFFSET);
+        //Commands.waitSeconds(10.0);
     }
 
     @Override
@@ -63,9 +67,8 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         autonomousCommand = robotContainer.getAutonomousCommand();
 
-        //intake.close();
+        intake.set(Value.kOff);
         drivetrain.resetEncoderPosition();
-        intake.disableCompressor(); //for testing
 
         if (autonomousCommand != null) {
             autonomousCommand.schedule();
@@ -83,7 +86,7 @@ public class Robot extends TimedRobot {
             autonomousCommand.cancel();
         }
 
-        //intake.close();
+        intake.set(Value.kOff);
     }
 
     @Override
@@ -101,7 +104,7 @@ public class Robot extends TimedRobot {
     @Override
     public void testInit() {
         CommandScheduler.getInstance().cancelAll();
-        //intake.close();
+        intake.set(Value.kOff);
     }
 
     @Override

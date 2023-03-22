@@ -37,11 +37,15 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void open() {
-        doubleSolenoid.set(Value.kForward);
+        doubleSolenoid.set(Value.kReverse);
     }
 
     public void close() {
-        doubleSolenoid.set(Value.kReverse);
+        doubleSolenoid.set(Value.kForward);
+    }
+
+    public void set(Value value) {
+        doubleSolenoid.set(value);
     }
 
     public boolean isOpen() {

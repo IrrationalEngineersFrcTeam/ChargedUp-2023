@@ -59,7 +59,6 @@ public class RobotContainer {
     robotController.povLeft().onTrue(Commands.runOnce(
       drivetrain::decreaseMaxOutput, drivetrain));
 
-    /*
 
     // Raise arm
     robotController.povUp().onTrue(Commands.runOnce(
@@ -68,21 +67,22 @@ public class RobotContainer {
     // Lower arm
     robotController.povDown().onTrue(Commands.runOnce(
       arm::lower, arm));
+
       
     // Position arm at low node
     robotController.a().onTrue(Commands.runOnce(() -> {
-      arm.setPosition(ArmConstants.LOW_GOAL);
+      arm.setPosition(ArmConstants.MID_GOAL);
       System.out.println("A button pressed. Goal: " + ArmConstants.LOW_GOAL);
     }, arm));
 
     // Position arm at mid node
     robotController.b().onTrue(Commands.runOnce(() -> {
-      arm.setPosition(ArmConstants.MID_GOAL);
+      arm.setPosition(ArmConstants.HIGH_GOAL);
     }, arm));
 
     // Position arm at high node
     robotController.y().onTrue(Commands.runOnce(() -> {
-      arm.setPosition(ArmConstants.HIGH_GOAL);
+      arm.setPosition(ArmConstants.OFFSET);
     }, arm));
 
     // Grab game piece
@@ -92,7 +92,6 @@ public class RobotContainer {
     // Release game piece
     robotController.leftBumper().onTrue(Commands.runOnce(
       intake::open, intake));
-      */
   }
 
   private void configureJoystickBindings() {

@@ -22,6 +22,7 @@ public class IntakeSubsystem extends SubsystemBase {
             IntakeConstants.COMPRESSOR_MODULE_ID, PneumaticsModuleType.CTREPCM);
 
         doubleSolenoid.set(Value.kForward);
+        doubleSolenoid.set(Value.kOff);
     }
 
     @Override

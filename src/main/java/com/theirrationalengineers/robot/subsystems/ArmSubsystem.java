@@ -35,6 +35,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
         motor.setSmartCurrentLimit(ArmConstants.CURRENT_LIMIT);
         motor.setIdleMode(IdleMode.kBrake);
         encoder.setPositionConversionFactor(ArmConstants.POSITION_CONVERSION_FACTOR);
+        getController().setTolerance(Math.toRadians(3.0));
         setGoal(ArmConstants.OFFSET);
     }
 
@@ -54,8 +55,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     }
 
     public boolean isAtSetpoint() {
-        //return this.getController().atSetpoint();
-        return this.getController().atGoal();
+        return this.getController().atSetpoint();
     }
 
     public void resetEncoder() {
@@ -75,7 +75,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public void raise() {
         double currentPosition = getMeasurement();
         
-        if (currentPosition < (ArmConstants.DOUBLE_SUBSTATION_GOAL - ArmConstants.MOVE_ARM_DELTA)) {
+        if (currentPosition < (ArmConstants.OFFSET - ArmConstants.MOVE_ARM_DELTA)) {
             setGoal(currentPosition + ArmConstants.MOVE_ARM_DELTA);
             enable();
         }
@@ -84,7 +84,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public void lower() {
         double currentPosition = getMeasurement();
 
-        if (currentPosition > (ArmConstants.OFFSET + ArmConstants.MOVE_ARM_DELTA)) {
+        if (currentPosition > (ArmConstants.LOW_GOAL + ArmConstants.MOVE_ARM_DELTA)) {
             setGoal(currentPosition - ArmConstants.MOVE_ARM_DELTA);
             enable();
         }

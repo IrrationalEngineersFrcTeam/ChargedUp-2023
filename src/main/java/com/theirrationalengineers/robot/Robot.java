@@ -36,7 +36,7 @@ public class Robot extends TimedRobot {
         leftJoystick = robotContainer.getLeftJoystick();
         rightJoystick = robotContainer.getRightJoystick();
 
-        //intake.enableCompressor();
+        intake.enableCompressor();
         CameraServer.startAutomaticCapture(0);
     }
 

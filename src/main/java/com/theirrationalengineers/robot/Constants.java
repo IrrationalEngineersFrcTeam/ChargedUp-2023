@@ -15,7 +15,7 @@ public class Constants {
         public static final double GEARBOX_RATIO = 100.0;
         public static final double OFFSET = Math.toRadians(103.0);
         public static final double LOW_GOAL = Math.toRadians(20.0);
-        public static final double MID_GOAL = Math.toRadians(37.5);
+        public static final double MID_GOAL = Math.toRadians(40.0);
         public static final double DOUBLE_SUBSTATION_GOAL = Math.toRadians(55.0);
         public static final double MOVE_ARM_DELTA = Math.toRadians(20.0);
     }

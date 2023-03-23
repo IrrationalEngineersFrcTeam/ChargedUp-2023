@@ -12,10 +12,18 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class AutoScoreCommand extends SequentialCommandGroup {
     public AutoScoreCommand(ArmSubsystem arm, DrivetrainSubsystem drivetrain, IntakeSubsystem intake) {
         addCommands(
-            new MoveArmCommand(ArmConstants.LOW_GOAL, arm),
+            //new MoveArmCommand(ArmConstants.MID_GOAL, arm),
+            Commands.runOnce(() -> {
+                arm.setPosition(ArmConstants.MID_GOAL);
+            }, arm),
+            Commands.waitSeconds(3.0),
             Commands.runOnce(intake::open, intake),
             Commands.waitSeconds(3.0),
-            new MoveArmCommand(ArmConstants.OFFSET, arm),
+            //new MoveArmCommand(ArmConstants.OFFSET, arm),
+            Commands.runOnce(() -> {
+                arm.setPosition(ArmConstants.OFFSET);
+            }, arm),
+            Commands.waitSeconds(3.0),
             new DriveDistanceCommand(-DrivetrainConstants.LEAVE_COMMUNITY_INCHES, drivetrain)
         );
     }

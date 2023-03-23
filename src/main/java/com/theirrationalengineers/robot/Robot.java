@@ -36,7 +36,6 @@ public class Robot extends TimedRobot {
         leftJoystick = robotContainer.getLeftJoystick();
         rightJoystick = robotContainer.getRightJoystick();
 
-        intake.set(Value.kOff);
         //intake.enableCompressor();
         CameraServer.startAutomaticCapture(0);
     }
@@ -49,7 +48,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
-        intake.set(Value.kOff);
         //Commands.waitSeconds(1.0);
         //arm.setPosition(ArmConstants.OFFSET);
         //Commands.waitSeconds(10.0);
@@ -66,7 +64,6 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         autonomousCommand = robotContainer.getAutonomousCommand();
 
-        intake.set(Value.kOff);
         drivetrain.resetEncoderPosition();
 
         if (autonomousCommand != null) {
@@ -85,7 +82,6 @@ public class Robot extends TimedRobot {
             autonomousCommand.cancel();
         }
 
-        intake.set(Value.kOff);
     }
 
     @Override
@@ -103,7 +99,6 @@ public class Robot extends TimedRobot {
     @Override
     public void testInit() {
         CommandScheduler.getInstance().cancelAll();
-        intake.set(Value.kOff);
     }
 
     @Override

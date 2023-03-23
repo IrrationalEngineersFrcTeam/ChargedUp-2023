@@ -12,6 +12,7 @@ import com.theirrationalengineers.robot.subsystems.DrivetrainSubsystem;
 import com.theirrationalengineers.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -31,12 +32,10 @@ public class RobotContainer {
 
   public RobotContainer() {
     autoChooser.setDefaultOption("Score + Leave Community", new AutoScoreCommand(arm, drivetrain, intake));
-    autoChooser.addOption("Score + Leave Community", new AutoScoreCommand(arm, drivetrain, intake));
     autoChooser.addOption("Drive Distance (-12in)", new DriveDistanceCommand(-12.0, drivetrain));
     autoChooser.addOption("Turn Angle (90deg)", new TurnAngleCommand(90.0, drivetrain));
 
     driveChooser.setDefaultOption("Arcade Drive", DriveMode.ARCADE_DRIVE);
-    driveChooser.addOption("Arcade Drive", DriveMode.ARCADE_DRIVE);
     driveChooser.addOption("Tank Drive", DriveMode.TANK_DRIVE);
 
     SmartDashboard.putData(autoChooser);
@@ -45,7 +44,6 @@ public class RobotContainer {
     SmartDashboard.putData("Lower arm", Commands.runOnce(arm::lower, arm));
     SmartDashboard.putData("Reset arm encoder", Commands.runOnce(arm::resetEncoder));
     SmartDashboard.putString("Max drive speed", DrivetrainConstants.INITIAL_MAX_OUTPUT * 100 + "%");
-
 
     configureXboxBindings();
     configureJoystickBindings();

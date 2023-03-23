@@ -53,8 +53,9 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
       return (encoder.getPosition() * (2.0 * Math.PI / ArmConstants.GEARBOX_RATIO) + ArmConstants.OFFSET);
     }
 
-    public boolean atSetpoint() {
-        return this.atSetpoint();
+    public boolean isAtSetpoint() {
+        //return this.getController().atSetpoint();
+        return this.getController().atGoal();
     }
 
     public void resetEncoder() {

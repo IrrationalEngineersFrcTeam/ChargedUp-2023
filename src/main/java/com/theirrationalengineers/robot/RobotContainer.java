@@ -43,6 +43,7 @@ public class RobotContainer {
     SmartDashboard.putData(driveChooser);
     SmartDashboard.putData("Raise arm", Commands.runOnce(arm::raise, arm));
     SmartDashboard.putData("Lower arm", Commands.runOnce(arm::lower, arm));
+    SmartDashboard.putData("Reset arm encoder", Commands.runOnce(arm::resetEncoder));
     SmartDashboard.putString("Max drive speed", DrivetrainConstants.INITIAL_MAX_OUTPUT * 100 + "%");
 
 
@@ -59,7 +60,6 @@ public class RobotContainer {
     robotController.povLeft().onTrue(Commands.runOnce(
       drivetrain::decreaseMaxOutput, drivetrain));
 
-
     // Raise arm
     robotController.povUp().onTrue(Commands.runOnce(
       arm::raise, arm));
@@ -68,21 +68,25 @@ public class RobotContainer {
     robotController.povDown().onTrue(Commands.runOnce(
       arm::lower, arm));
 
-      
     // Position arm at low node
     robotController.a().onTrue(Commands.runOnce(() -> {
-      arm.setPosition(ArmConstants.MID_GOAL);
-      System.out.println("A button pressed. Goal: " + ArmConstants.LOW_GOAL);
+      arm.setPosition(ArmConstants.LOW_GOAL);
     }, arm));
 
     // Position arm at mid node
     robotController.b().onTrue(Commands.runOnce(() -> {
-      arm.setPosition(ArmConstants.HIGH_GOAL);
+      arm.setPosition(ArmConstants.MID_GOAL);
     }, arm));
 
     // Position arm at high node
     robotController.y().onTrue(Commands.runOnce(() -> {
+      arm.setPosition(ArmConstants.DOUBLE_SUBSTATION_GOAL);
+    }, arm));
+
+    // Position arm at initial position
+    robotController.x().onTrue(Commands.runOnce(() -> {
       arm.setPosition(ArmConstants.OFFSET);
+      System.out.println("arm going to offset");
     }, arm));
 
     // Grab game piece

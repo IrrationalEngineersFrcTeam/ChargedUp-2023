@@ -57,8 +57,12 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
         return this.atSetpoint();
     }
 
+    public void resetEncoder() {
+        encoder.setPosition(0.0);
+    }
+
     public void setPosition(double goal) {
-        if ((goal <= ArmConstants.HIGH_GOAL) && (goal >= ArmConstants.LOW_GOAL)) {
+        if ((goal <= ArmConstants.OFFSET) && (goal >= ArmConstants.LOW_GOAL)) {
             setGoal(goal);
             enable();
             SmartDashboard.putNumber("Arm goal", goal);
@@ -70,7 +74,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public void raise() {
         double currentPosition = getMeasurement();
         
-        if (currentPosition < (ArmConstants.HIGH_GOAL - ArmConstants.MOVE_ARM_DELTA)) {
+        if (currentPosition < (ArmConstants.DOUBLE_SUBSTATION_GOAL - ArmConstants.MOVE_ARM_DELTA)) {
             setGoal(currentPosition + ArmConstants.MOVE_ARM_DELTA);
             enable();
         }

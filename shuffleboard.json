@@ -111,104 +111,13 @@
           },
           "4,1": {
             "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Arm goal",
-              "_title": "Arm goal",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "5,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Arm motor output",
-              "_title": "Arm motor output",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "6,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Arm motor feedforward",
-              "_title": "Arm motor feedforward",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "7,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Arm encoder velocity",
-              "_title": "Arm encoder velocity",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "8,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/encoder",
-              "_title": "encoder",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "9,1": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/forward",
-              "_title": "forward",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "4,2": {
-            "size": [
-              1,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/rotation",
-              "_title": "rotation",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "5,2": {
-            "size": [
               3,
               2
             ],
             "content": {
               "_type": "Camera Stream",
               "_source0": "camera_server://USB Camera 0",
-              "_title": "USB Camera 0",
+              "_title": "Cone Cam",
               "_glyph": 148,
               "_showGlyph": false,
               "Crosshair/Show crosshair": true,
@@ -219,6 +128,27 @@
               "fps": -1,
               "imageWidth": -1,
               "imageHeight": -1
+            }
+          },
+          "7,1": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Camera Stream",
+              "_source0": "camera_server://USB Camera 1",
+              "_title": "USB Camera 1",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Crosshair/Show crosshair": true,
+              "Crosshair/Crosshair color": "#FFFFFFFF",
+              "Controls/Show controls": true,
+              "Controls/Rotation": "NONE",
+              "compression": -1.0,
+              "fps": -1,
+              "imageWidth": 0,
+              "imageHeight": 0
             }
           }
         }

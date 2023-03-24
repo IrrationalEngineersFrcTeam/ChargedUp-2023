@@ -38,6 +38,7 @@ public class Robot extends TimedRobot {
 
         intake.enableCompressor();
         CameraServer.startAutomaticCapture(0);
+        CameraServer.startAutomaticCapture(1);
     }
 
     @Override

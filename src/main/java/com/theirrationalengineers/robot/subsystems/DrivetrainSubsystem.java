@@ -58,15 +58,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public void arcadeDrive(double forward, double rotation) {
         differentialDrive.arcadeDrive(forward, rotation);
-        SmartDashboard.putNumber("encoder", getEncoderPosition());
-        SmartDashboard.putNumber("forward", forward);
-        SmartDashboard.putNumber("rotation", rotation);
+        //SmartDashboard.putNumber("encoder", getEncoderPosition());
+        //SmartDashboard.putNumber("forward", forward);
+        //SmartDashboard.putNumber("rotation", rotation);
     }
 
     public void tankDrive(double left, double right) {
         differentialDrive.tankDrive(left, right);
-        SmartDashboard.putNumber("left", left);
-        SmartDashboard.putNumber("right", right);
+        //SmartDashboard.putNumber("left", left);
+        //SmartDashboard.putNumber("right", right);
     }
 
     public void increaseMaxOutput() {

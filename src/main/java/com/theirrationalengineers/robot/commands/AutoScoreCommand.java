@@ -13,12 +13,12 @@ public class AutoScoreCommand extends SequentialCommandGroup {
     public AutoScoreCommand(ArmSubsystem arm, DrivetrainSubsystem drivetrain, IntakeSubsystem intake) {
         addCommands(
             new MoveArmCommand(ArmConstants.MID_GOAL, arm),
-            Commands.waitSeconds(2.0),
+            Commands.waitSeconds(3.0),
             Commands.runOnce(intake::open, intake),
-            Commands.waitSeconds(1.0),
+            Commands.waitSeconds(3.0),
             new MoveArmCommand(ArmConstants.OFFSET, arm),
-            Commands.waitSeconds(1.0),
-            new DriveDistanceCommand(-DrivetrainConstants.LEAVE_COMMUNITY_INCHES, drivetrain)
+            Commands.waitSeconds(3.0),
+            new DriveDistanceCommand(-DrivetrainConstants.LEAVE_COMMUNITY_DISTANCE_INCHES, drivetrain)
         );
     }
 

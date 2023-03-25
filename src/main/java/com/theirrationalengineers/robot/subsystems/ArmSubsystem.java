@@ -76,10 +76,10 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public void raise() {
         double currentPosition = getMeasurement();
         
-        if (currentPosition < (ArmConstants.OFFSET - ArmConstants.MOVE_ARM_DELTA)) {
+        //if (currentPosition < (ArmConstants.OFFSET - ArmConstants.MOVE_ARM_DELTA)) {
             setGoal(currentPosition + ArmConstants.MOVE_ARM_DELTA);
             enable();
-        }
+        //}
     }
 
     public void lower() {

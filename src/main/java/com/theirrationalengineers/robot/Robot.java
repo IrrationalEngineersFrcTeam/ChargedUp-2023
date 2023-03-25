@@ -66,6 +66,7 @@ public class Robot extends TimedRobot {
         autonomousCommand = robotContainer.getAutonomousCommand();
 
         drivetrain.resetEncoderPosition();
+        arm.resetEncoder();
 
         if (autonomousCommand != null) {
             autonomousCommand.schedule();

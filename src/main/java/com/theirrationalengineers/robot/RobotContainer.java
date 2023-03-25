@@ -6,6 +6,7 @@ import com.theirrationalengineers.robot.Constants.DrivetrainConstants;
 import com.theirrationalengineers.robot.Constants.OIConstants;
 import com.theirrationalengineers.robot.commands.AutoScoreCommand;
 import com.theirrationalengineers.robot.commands.DriveDistanceCommand;
+import com.theirrationalengineers.robot.commands.ScoreNoBackup;
 import com.theirrationalengineers.robot.commands.TurnAngleCommand;
 import com.theirrationalengineers.robot.subsystems.ArmSubsystem;
 import com.theirrationalengineers.robot.subsystems.DrivetrainSubsystem;
@@ -32,6 +33,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     autoChooser.setDefaultOption("Score + Leave Community", new AutoScoreCommand(arm, drivetrain, intake));
+    autoChooser.addOption("Score only", new ScoreNoBackup(arm, intake));
     autoChooser.addOption("Drive Distance (-12in)", new DriveDistanceCommand(-12.0, drivetrain));
     autoChooser.addOption("Turn Angle (90deg)", new TurnAngleCommand(90.0, drivetrain));
 
